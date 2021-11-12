@@ -5,6 +5,7 @@ import { Intro } from './pages/Intro';
 import  MainPage  from './pages/MainPage';
 import  LoginPage  from './pages/Login'
 import  MyPage  from './pages/MyPage';
+import  SignUp from './pages/SignUp'
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { NavBar } from './pages/NavBar';
 
@@ -29,6 +30,9 @@ function App() {
       </Route>
       <Route path="/loginpage">
         <LoginPage />
+      </Route>
+      <Route exact path="/signup">
+        <SignUp />
       </Route>
     </Switch>
     </BrowserRouter>
