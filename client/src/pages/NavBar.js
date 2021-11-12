@@ -34,4 +34,5 @@ export const NavBar = () => {
     </section>
     </MainContainer>
   );
+
 }

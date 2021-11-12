@@ -1,3 +1,4 @@
+
 import logo from './logo.svg';
 import './App.css';
 import { Intro } from './pages/Intro';
@@ -7,8 +8,12 @@ import  MyPage  from './pages/MyPage';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { NavBar } from './pages/NavBar';
 
+
 function App() {
+
+
   return (
+
     <>
     <BrowserRouter>
     <NavBar/>
@@ -28,6 +33,7 @@ function App() {
     </Switch>
     </BrowserRouter>
     </>
+
   );
 }
 
