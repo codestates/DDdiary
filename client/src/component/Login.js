@@ -43,7 +43,7 @@ export default function Login(props) {
     const dispatch = useDispatch();
     const [email, SetEmail] = useState(''); //단순 이메일,비밀번호 입력감지용
     const [password, SetPassword] = useState('');
-
+    const [errMessage, setErrMessage] = useState('');
     const LoginState = useSelector(state=>state.LoginReducer);
 
     const emailHandler = (e) => {
@@ -66,11 +66,16 @@ export default function Login(props) {
         }
          try { // body:{ email: '123', password: '1111' } 형식으로 전송
             const response = await axios.post('http://localhost:4000/oauth/login', body, { accept: "application/json", withCredentials: true })
-            const loginResult = response.data
+            const loginResult = response.data ? response.data : 'NoUser' //이거 수정 필요
+            if(loginResult === 'NoUser'){
+               setErrMessage('아이디 또는 비밀번호를 확인해 주세요')
+            }
             //response.data에 유저정보 있으면 dispatch(setUserInfo('유저정보'))
-            dispatch(setUserInfo(body));//로그인 액션에서 수정해야 함
+            //로그인 응답오면 닉네임 등 양식 맞춰서 유저인포에 넣어야 함
+            dispatch(setUserInfo(body));
+            //로그인 응답오면 닉네임 등 양식 맞춰서 유저인포에 넣어야 함
             dispatch(setIsLogin());
-            history.push('/mypage')
+            history.push('/mainpage')
 
             // return loginResult
 
@@ -79,35 +84,6 @@ export default function Login(props) {
         }
     // console.log('LoginState:',LoginState)
     };
-
-    // const submitHandler = async (e) => {
-    //     e.preventDefault();
-    //     const body = {
-    //         email,
-    //         password
-    //     }
-    //     try{
-    //         const response = await axios.post(/*api입력, body, { accept: "application/json", withCredentials: true }*/)
-    //         console.log(response)
-    //         return response
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    //             /*이하를 트라이 캐치로 구현
-    //             .then((res) => res.data)
-    //             .then((data) => {
-    //              if (data.message === "login successfully") {
-    //                 dispatch(setIsLogin());
-    //                 dispatch(setUserInfo());
-    //                 dispatch(axiosData("https://localhost:5000/user/record", setRecords));
-    //                 history.push("/main");
-    //             } else {
-    //                 history.push("/login");
-    //                 alert("no member");
-    //              }
-    //             }); 
-    //       */
-    // };
 
 
     return (
@@ -120,6 +96,7 @@ export default function Login(props) {
                     <form className='input_container' onSubmit={submitHandler_test} >
                         <input className='input_email' placeholder='이메일' onChange={emailHandler} required></input><br />
                         <input className='input_password' placeholder='비밀번호' onChange={passwordHandler} required></input><br />
+                        <span>{errMessage}</span>
                         <Button type='submit'>로그인</Button>
                     </form>
                     <div>
