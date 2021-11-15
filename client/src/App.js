@@ -1,5 +1,6 @@
 
 import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 import { Intro } from './pages/Intro';
 import  MainPage  from './pages/MainPage';
