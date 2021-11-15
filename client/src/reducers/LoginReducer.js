@@ -1,4 +1,4 @@
-import { SET_ISLOGIN,SET_ISLOGOUT,SET_USERINFO } from '../actions/LoginAction';
+import { SET_ISLOGIN, SET_ISLOGOUT, SET_USERINFO, SET_EMAIL, SET_PASSWORD } from '../actions/LoginAction';
 import { initialState } from './InitialState';
 
 const loginReducer = (state = initialState, action)=>{
@@ -21,9 +21,25 @@ const loginReducer = (state = initialState, action)=>{
                 ...state,
                 isLogin:action.payload
             }; 
+
+        case SET_EMAIL: 
+            return {
+                ...state,
+                email:action.payload
+            }; 
             
+        case SET_PASSWORD: 
+            return {
+                ...state,
+                password:action.payload
+            }; 
+
+            
+
         default:
             return state;
     }
 
 }
+
+export default loginReducer

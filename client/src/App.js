@@ -3,8 +3,8 @@ import './App.css';
 import { Intro, MainContainer, PageContainer } from './pages/Intro';
 import  MainPage  from './pages/MainPage';
 import  LoginPage  from './pages/Login'
-import  SignUpPage  from './pages/SignUp'
 import  MyPage  from './pages/MyPage';
+import  SignUp from './pages/SignUp'
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { NavBar } from './pages/NavBar';
 
@@ -32,8 +32,8 @@ function App() {
       <Route path="/loginpage">
         <LoginPage />
       </Route>
-      <Route path="/signuppage">
-        <SignUpPage />
+      <Route exact path="/signup">
+        <SignUp />
       </Route>
     </Switch>
     </PageContainer>

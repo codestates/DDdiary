@@ -1,4 +1,3 @@
-//회원가입 구현. 회원가입 완료 모달창
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components'
@@ -172,3 +171,4 @@ export default function SignUp() {
         </Container>
     );
 };
+
