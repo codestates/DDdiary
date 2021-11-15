@@ -1,9 +1,43 @@
+// 회원가입 완료 후 모달창 구현 필요
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components'
 import axios from 'axios';
 
 axios.defaults.withCredentials = true;
+
+export const ModalBackdrop = styled.div`
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.4);
+  display: grid;
+  place-items: center;
+`;
+
+export const ModalView = styled.div.attrs(props => ({
+  role: 'dialog'
+}))`
+    border-radius: 10px;
+    background-color: #ffffff;
+    width: 300px;
+    height: 100px;
+
+    > div.close_btn {
+      margin-top: 5px;
+      cursor: pointer;
+    }
+
+    > div.desc {
+      margin-top: 25px;
+      color: #4000c7;
+    }
+`;
+
 
 const Container = styled.div`
     border: 0.5px solid gray;
@@ -49,83 +83,142 @@ export default function SignUpComponent() {
     const [userinfo, setuserinfo] = useState({
         email: '',
         password: '',
-        passwordConfirm: '',
         nickname: '',
         checkbox: false,
-      });
+    });
+
+    const dispatch = useDispatch();
+
     const [errorMessage, setErrorMessage] = useState('');
     const [warningTextEmail, setwarningTextEmail] = useState('');
     const [warningTextPassword, setwarningTextPassword] = useState('');
     const [warningTextPasswordC, setwarningTextPasswordC] = useState('');
     const [warningNickname, setwarningNickname] = useState('');
+
+    const [checkedInputs, setCheckedInputs] = useState([]);
+
+    const [valid, setvalid] = useState({
+        email: false,
+        password: false,
+        passwordConfirm: false,
+        nickname: false,
+        checkbox: false
+    });
+
+    const [isOpen, setIsOpen] = useState(false);
+
     const history = useHistory();
 
-    let passC = false;
-
     const handleInputValue = (key) => (e) => {
-        setuserinfo({ ...userinfo, [key]: e.target.value });
-        
+      setuserinfo({ ...userinfo, [key]: e.target.value });
+    //   console.log(`${[key]}: ${e.target.value}`);
+
+      const { value } = e.target;
+
         // 이메일 유효성검사
-        if (userinfo.email !== '') {
-            if (userinfo.email.includes('@') && userinfo.email.includes('.') && userinfo.email[userinfo.email.length-1] !== '.'){
-                setwarningTextEmail('');
-            }
-            else {
-                setwarningTextEmail('이메일 형식이 잘못되었습니다.');
-            }
+      if (key === 'email' && value !== '') {
+        if (value.includes('@') && value.includes('.') && value[value.length-1] !== '.'){
+          setwarningTextEmail('');
+          setvalid({ ...valid, 'email': true });
         }
         else {
-            setwarningTextEmail('');
+          setwarningTextEmail('이메일 형식이 잘못되었습니다.');
+          setvalid({ ...valid, 'email': false });
         }
+      }
 
-        // 비밀번호 유효성검사
-        const chkNum = userinfo.password.search(/[0-9]/g);
-        const chkEng = userinfo.password.search(/[a-z]/ig);
-        const spe = userinfo.password.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+      // 비밀번호 유효성검사
+      if (key === 'password' && value !== ''){
+        const chkNum = value.search(/[0-9]/g);
+        const chkEng = value.search(/[a-zA-Z]/ig);
+        const spe = value.search(/[!@#$%^*+=-]/gi);
 
-        if (!/^[a-zA-Z0-9]{8,16}$/.test(userinfo.password) || chkNum < 0 || chkEng < 0 || spe < 0){
-            if (/(\w)\1\1\1/.test(userinfo.password)){
-              setwarningTextPassword("같은 문자를 4번 이상 사용하실 수 없습니다.");
-            }
-            else {
-              setwarningTextPassword("8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.");
-            }
-        }
-        else {
-            setwarningTextPassword('');
-        }
-
-        // 비밀번호 재확인 유효성검사
-        if (userinfo.passwordConfirm !== '') {
-          if (/^[a-zA-Z0-9]{8,16}$/.test(userinfo.passwordConfirm) || userinfo.passwordConfirm !== userinfo.password) {
-            setwarningTextPasswordC('비밀번호가 일치하지 않습니다.');
-            passC = false;
+        if (!/^[a-zA-Z0-9!@#$%^*+=-]{8,16}$/.test(value) || chkNum < 0 || chkEng < 0 || spe < 0){
+          if (/(\w)\1\1\1/.test(value)){
+            setwarningTextPassword("같은 문자를 4번 이상 사용하실 수 없습니다.");
+            setvalid({ ...valid, 'password': false });
           }
           else {
-            setwarningTextPasswordC('');
-            passC = true;
+            setwarningTextPassword("8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.");
+            setvalid({ ...valid, 'password': false });
           }
         }
+        else {
+          if (/(\w)\1\1\1/.test(value)){
+            setwarningTextPassword("같은 문자를 4번 이상 사용하실 수 없습니다.");
+            setvalid({ ...valid, 'password': false });
+          }
+          else {
+            setwarningTextPassword('');
+            setvalid({ ...valid, 'password': true });
+          }
+        }
+      }
 
-        // 닉네임 유효성검사
-        const chkKor = userinfo.nickname.search(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/);
-        const chkEngNinck = userinfo.nickname.search(/[a-z]/ig);
-        if (userinfo.nickname !== ''){
-          if (!/^[a-zA-Z0-9]{2,16}$/.test(userinfo.nickname) || chkKor >= 0 || chkEngNinck >= 0 ){
-            setwarningNickname('2~16자 한글 혹은 영문 대 소문자를 사용하세요.')
+      // 비밀번호 재확인 유효성검사
+      if (key === 'passwordConfirm' && value !== '') {
+        if (value !== userinfo.password) {
+          setwarningTextPasswordC('비밀번호가 일치하지 않습니다.');
+          setvalid({ ...valid, 'passwordConfirm': false });
+        }
+        else {
+          setwarningTextPasswordC('');
+          setvalid({ ...valid, 'passwordConfirm': true });
+        }
+      }
+
+      // 닉네임 유효성검사
+      if (key === 'nickname' && value !== ''){
+        const chkKor = value.search(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/);
+        const chkEngNinck = value.search(/[a-zA-Z]/ig);
+        if (!/^[a-zA-Zㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,16}$/.test(value)) {
+          if(chkKor < 0 && chkEngNinck < 0){
+            setwarningNickname('한글 혹은 영문 대 소문자를 사용하세요.');
+            setvalid({ ...valid, 'nickname' : false });
+          }
+          else {
+            setwarningNickname('길이는 2~16자 이내로 사용하세요.');
+            setvalid({ ...valid, 'nickname' : false });
           }
         }
+        else {
+            setwarningNickname('');
+            setvalid({ ...valid, 'nickname' : true });
+        }
+      }
     };
 
+    // 체크박스 상태 반영
+    const changeHandler = (checked, id) => {
+      if (checked) {
+        setCheckedInputs([...checkedInputs, id]);
+        setuserinfo({ ...userinfo, 'checkbox': true });
+        setvalid({ ...valid, 'checkbox': true });
+        console.log('체크 반영 완료');
+      } else {
+        setCheckedInputs(checkedInputs.filter(el => el !== id));
+        setuserinfo({ ...userinfo, 'checkbox': false });
+        setvalid({ ...valid, 'checkbox': false });
+        console.log('체크 해제 반영 완료');
+      }
+    };
+
+    // 회원가입 버튼 관련 함수
     const handleSignup = () => {
-      if(userinfo.email === '' || userinfo.password === '' || passC || userinfo.nickname === '' || userinfo.checkbox === false ){
+      if(!valid.email || !valid.password || !valid.passwordConfirm || !valid.nickname|| !valid.checkbox ){
         setErrorMessage('모든 항목은 필수입니다');
       }
       else{
-        axios.post('https://localhost:3000/signup',userinfo,
-      { withCredentials: true });
+          setIsOpen(!isOpen);
+        axios.post('http://localhost:4000/oauth/signup',userinfo,
+        { accept: "application/json", withCredentials: true });
       history.push("/loginpage");
       };
+    };
+    
+    // 회원가입 완료 모달창
+    const openModalHandler = () => {
+      setIsOpen(!isOpen);
     };
 
 
@@ -159,13 +252,17 @@ export default function SignUpComponent() {
                         type='text' onChange={handleInputValue('nickname')} required></input><br />
 
                         <div className='text_line'>개인정보 수집에 동의하십니까?</div>
-                        <label className='item_line'><input type="checkbox"></input> 동의</label>
+                        <label className='item_line'><input type='checkbox'
+                        onChange={e => {
+                            changeHandler(e.currentTarget.checked, 'check');
+                          }}
+                          checked={checkedInputs.includes('check') ? true : false} required></input> 동의</label>
                     </form>
                     <div>
                       <Button type='submit' className='field'
-                      onClick={handleSignup}>회원가입</Button> {/*잘 연결되면 캘린더 페이지로 연결 필요*/}
+                      onClick={handleSignup}>회원가입</Button>
                     </div>
-                    <div className='alert-box'>{errorMessage}</div>
+                    <div className='alert-box' className='warning_text'>{errorMessage}</div>
                 </LoginContainer>
             </MainContainer>
         </Container>
