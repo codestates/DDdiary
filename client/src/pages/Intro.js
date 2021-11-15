@@ -3,6 +3,7 @@ import { useState } from 'react';
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { Link } from "react-router-dom";
 
 axios.defaults.withCredentials = true;
 
@@ -10,7 +11,6 @@ export const MainContainer = styled.div`
   background-color: #D8D8D8;
   height: 55rem;
   display: flex;
-  justify-content: center;
   align-items: center;
   text-align: center;
   flex-direction:column;
@@ -70,19 +70,13 @@ export const Intro = () => {
 
   return (
     <>
-      <MainContainer>
-        <PageContainer>
-            {isLogin ? <ConfirmBtn onClick={loginHandler}>
-            로그아웃
-          </ConfirmBtn> : <ConfirmBtn onClick={loginHandler}>
-            로그인
-          </ConfirmBtn>}
-          <IntroContainer>
-            <IntroductionText>어플 소개글</IntroductionText>
-            <IntroductionTextContent>여기엔 사진같이 무언가 소개하는 거</IntroductionTextContent>
-          </IntroContainer>
-        </PageContainer>
-      </MainContainer>
+        <Link exact to ="/loginpage"><ConfirmBtn onClick={loginHandler}>
+        로그인
+        </ConfirmBtn></Link>
+        <IntroContainer>
+          <IntroductionText>어플 소개글</IntroductionText>
+          <IntroductionTextContent>여기엔 사진같이 무언가 소개하는 거</IntroductionTextContent>
+        </IntroContainer>
     </>
   );
 };
