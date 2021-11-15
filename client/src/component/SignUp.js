@@ -44,7 +44,7 @@ const Button = styled.button`
 `;
 
 
-export default function SignUp() {
+export default function SignUpComponent() {
 
     const [userinfo, setuserinfo] = useState({
         email: '',
