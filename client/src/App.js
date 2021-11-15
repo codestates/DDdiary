@@ -1,4 +1,3 @@
-
 import './App.css';
 import { Intro, MainContainer, PageContainer } from './pages/Intro';
 import  MainPage  from './pages/MainPage';
