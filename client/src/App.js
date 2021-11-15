@@ -1,11 +1,9 @@
-
-import logo from './logo.svg';
-import React, { useState } from 'react';
 import './App.css';
-import { Intro } from './pages/Intro';
+import { Intro, MainContainer, PageContainer } from './pages/Intro';
 import  MainPage  from './pages/MainPage';
 import  LoginPage  from './pages/Login'
 import  MyPage  from './pages/MyPage';
+import  SignUp from './pages/SignUp'
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { NavBar } from './pages/NavBar';
 
@@ -18,6 +16,8 @@ function App() {
     <>
     <BrowserRouter>
     <NavBar/>
+    <MainContainer>
+    <PageContainer>
     <Switch>
       <Route exact path="/">
         <Intro/>
@@ -31,7 +31,12 @@ function App() {
       <Route path="/loginpage">
         <LoginPage />
       </Route>
+      <Route exact path="/signup">
+        <SignUp />
+      </Route>
     </Switch>
+    </PageContainer>
+    </MainContainer>
     </BrowserRouter>
     </>
 
