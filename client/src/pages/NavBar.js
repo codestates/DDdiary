@@ -20,6 +20,16 @@ export const MainContainer = styled.div`
   text-align: center;
   font-weight: bold;
   font-size: 35px;
+  > .sidebar {
+    height: 3rem;
+    width: 27rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing:1.5rem;
+    border-radius: 30px;
+    background-color: #8b8b8b;
+  }
 `;
 
 export const NavBar = () => {
@@ -28,9 +38,13 @@ export const NavBar = () => {
       <MainContainer>
     <section className="sidebar">
         <Link exact to ="/"><FontAwesomeIcon icon="home"></FontAwesomeIcon></Link>
+        &nbsp;
         <Link to="/mainpage"><FontAwesomeIcon icon="calendar-check"></FontAwesomeIcon></Link>
+        &nbsp;
         <Link to="/mypage"><FontAwesomeIcon icon="user"></FontAwesomeIcon></Link>
+        &nbsp;
         <Link to="/loginpage"><FontAwesomeIcon icon="sign-in-alt"></FontAwesomeIcon></Link>
+        <Link to="/signuppage">가입P</Link>
     </section>
     </MainContainer>
   );

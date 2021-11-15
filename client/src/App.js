@@ -1,7 +1,6 @@
 
-import logo from './logo.svg';
 import './App.css';
-import { Intro } from './pages/Intro';
+import { Intro, MainContainer, PageContainer } from './pages/Intro';
 import  MainPage  from './pages/MainPage';
 import  LoginPage  from './pages/Login'
 import  MyPage  from './pages/MyPage';
@@ -18,6 +17,8 @@ function App() {
     <>
     <BrowserRouter>
     <NavBar/>
+    <MainContainer>
+    <PageContainer>
     <Switch>
       <Route exact path="/">
         <Intro/>
@@ -35,6 +36,8 @@ function App() {
         <SignUp />
       </Route>
     </Switch>
+    </PageContainer>
+    </MainContainer>
     </BrowserRouter>
     </>
 

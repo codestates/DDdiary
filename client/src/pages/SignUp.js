@@ -2,8 +2,8 @@
 import React from 'react'
 import SignUp from '../component/SignUp'
 
-export default function SignUpPage() { 
-    console.log('페이지쪽 회원가입')
+export default function SignUp() { 
+
     return (
         <div>
             <div className='container'>
