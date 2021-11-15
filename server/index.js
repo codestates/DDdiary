@@ -10,7 +10,11 @@ const comentRouter = require('./routers/coment');
 const diaryRouter = require('./routers/diary');
 
 
-app.use(cors())
+app.use(cors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE' ,'OPTIONS']
+  }))
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
@@ -23,6 +27,7 @@ app.use('/users', userRouter);
 app.use('/todolist', todolistRouter);
 app.use('/oauth', oauthRouter);
 app.use('/diary', diaryRouter);
+
 
 
 app.listen(PORT,HOST,()=> {
