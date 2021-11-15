@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo, setIsLogin } from "../actions/LoginAction";
 import { useHistory } from 'react-router-dom';
+import { Modal } from './MypageModal'
 import axios from 'axios';
 import styled from 'styled-components'
 
 const Container = styled.div`
+    position: relative;
     border: 0.5px solid gray;
     box-sizing: border-box;
     display: flex;
@@ -48,6 +50,7 @@ export default function MyPage(props) {
     const [changePassword, setChangePassword] = useState('');
     const [checkChangePassword, setcheckChangePassword] = useState('');
     const [errMessage, setErrMessage] = useState('');
+    const [openModal, setOpenModal] = useState(false);
 
     if (LoginState.isLogin !== true) {
         console.log('로그인 해주시기 바랍니다')
@@ -160,6 +163,14 @@ export default function MyPage(props) {
         }
     }
 
+    const openModalHandler = () => {
+        setOpenModal(!openModal)
+    }
+
+    const closeModal = ()=>{
+        setOpenModal(false)
+    }
+
     const userDeleteHandler = async () => {
         try{
             const body = email // 유저 누군지 알려줘야 함. 유저아이디나 토큰, 이메일로 판단
@@ -175,14 +186,18 @@ export default function MyPage(props) {
         }
     }
 
+    console.log(Modal)
+
 
 
     return (
         // <div>{email ? email:'데이터 들어오지 않았음'}</div>
         <Container>
+            {!openModal? null : <Modal closeModal={closeModal} userDeleteHandler={userDeleteHandler}/>}
             <div className='userinfo_text'>
                 회원정보
             </div>
+            {/* <Modal onClick={modalHandler} /> */}
             {isChangeable ?
                 <Button onClick={changeCompleteHandler}>회원정보 수정완료</Button> :
                 <Button onClick={changeHandler}>회원정보 수정</Button>}
@@ -196,7 +211,7 @@ export default function MyPage(props) {
                         <input type='text' value={email} disabled></input>
                         <div>
                             <Button onClick={logOutHandler}>로그아웃 버튼</Button>
-                            <Button onClick={userDeleteHandler}>회원탈퇴 버튼</Button>
+                            <Button onClick={openModalHandler/*userDeleteHandler*/}>회원탈퇴 버튼</Button>
                         </div>
                     </div>
                     : //isChangeable = true

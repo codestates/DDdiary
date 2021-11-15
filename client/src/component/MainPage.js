@@ -6,10 +6,45 @@ import moment from 'moment';
 function MainPageComponent() {
     // const dispatch = useDispatch();
     const [getMoment, setMoment]=useState(moment());
+    const [todoMsg, setTodoMsg] = useState("");
+    const [todoData, setTodoData] = useState([{}]);
+    const [pickDate, setPickDate] = useState(moment().format('YYYYMMDD'));
 
     const today = getMoment;
     const firstWeek = today.clone().startOf('month').week();
     const lastWeek = today.clone().endOf('month').week() === 1 ? 53 : today.clone().endOf('month').week();
+  
+    // console.log(moment().format('YYYYMMDD'))
+    const handle = (data) => {
+        console.log(data)
+        // console.log(pickDate)
+        setPickDate(data)
+    }
+    const todoButtonDeleteClick = (todolist) => {
+        // {todoData.map((todolist) => {
+        //     todolist.date === pickDate ? {
+
+        //     }
+        // })}
+        // console.log(idx)
+        // todolist
+        // console.log(todolist)
+        const restTodo = todoData.filter((todo) => todo.content !== todolist.content);
+        // console.log(restTodo)
+        setTodoData(restTodo)
+    };
+    const handleChangeMsg = (event) => {
+        setTodoMsg(event.target.value)
+    };
+    const todoButtonClick = (event) => {
+        const todo = {
+          date: pickDate,
+          content: todoMsg
+        };
+        setTodoData([todo, ...todoData])
+    };
+
+
     const calendarArr=()=>{
         
         let result = [];
@@ -21,22 +56,24 @@ function MainPageComponent() {
               Array(7).fill(0).map((data, index) => {
                 let days = today.clone().startOf('year').week(week).startOf('week').add(index, 'day');
 
+                // console.log(days.format('YYYYMMDD'))
+
                 if(moment().format('YYYYMMDD') === days.format('YYYYMMDD')){
                   return(
-                      <td key={index} style={{backgroundColor:'red'}} >
-                        <span>{days.format('D')}</span>
+                      <td key={index} >
+                        <button style={{backgroundColor:'red'}} onClick={(e) => handle(days.format('YYYYMMDD'))}>{days.format('D')}</button>
                       </td>
                   );
                 }else if(days.format('MM') !== today.format('MM')){
                   return(
                       <td key={index} style={{backgroundColor:'gray'}} >
-                        <span>{days.format('D')}</span>
+                        <button style={{backgroundColor:'gray'}} onClick={(e) => handle(days.format('YYYYMMDD'))}>{days.format('D')}</button>
                       </td>
                   );
                 }else{
                   return(
                       <td key={index}  >
-                        <span>{days.format('D')}</span>
+                        <button onClick={(e) => handle(days.format('YYYYMMDD'))}>{days.format('D')}</button>
                       </td>
                   );
                 }
@@ -46,7 +83,7 @@ function MainPageComponent() {
         }
         return result;
     }
-
+    
 
     return (
         <div>
@@ -60,6 +97,19 @@ function MainPageComponent() {
                 {calendarArr()}
             </tbody>
         </table>
+        <div>{[pickDate.slice(0,4),'년',pickDate.slice(4,6),'월',pickDate.slice(6),'일'].join('')}</div>
+            <div>{todoData.map((todolist) => {
+                // console.log(todolist)
+                return todolist.date === pickDate ? (
+                    <div>
+                        <input type="checkbox" />
+                        {todolist.content}
+                        <button onClick={() => todoButtonDeleteClick(todolist) }>삭제</button>
+                    </div>
+                  ) : (<div></div>)})}
+            </div>
+            <textarea onChange={handleChangeMsg}></textarea>
+            <button onClick={todoButtonClick}>생성</button>
         </div>
       );
 }
