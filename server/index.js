@@ -30,6 +30,7 @@ app.use('/diary', diaryRouter);
 
 
 
+
 app.listen(PORT,HOST,()=> {
     console.log(`http://${HOST}:${PORT} 로 실행`)
 })
