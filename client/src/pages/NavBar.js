@@ -42,9 +42,6 @@ export const NavBar = () => {
         <Link to="/mainpage"><FontAwesomeIcon icon="calendar-check"></FontAwesomeIcon></Link>
         &nbsp;
         <Link to="/mypage"><FontAwesomeIcon icon="user"></FontAwesomeIcon></Link>
-        &nbsp;
-        <Link to="/loginpage"><FontAwesomeIcon icon="sign-in-alt"></FontAwesomeIcon></Link>
-        <Link to="/signup">가입P</Link>
     </section>
     </MainContainer>
   );
