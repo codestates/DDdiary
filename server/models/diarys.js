@@ -7,23 +7,24 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
 
-      models.diarys.belongsToMany(models.users, {
-        through: 'userDiary',
-        targetKey: 'id',
-        foreignKey: 'diaryId',
-        onDelete: 'cascade',
-        onUpdate: 'cascade'
+      models.diarys.belongsTo(models.userDate, {
+        foreignKey: 'userId',
+        as: 'userDate',
+        targetKey: 'userId',
+        onDelete: 'CASCADE',
+        //onUpdate: 'CASCADE'
       })
     }
   };
   diarys.init({
     content: DataTypes.STRING,
-    createAt: DataTypes.INTEGER
+    userId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'diarys',
     charset: 'utf8mb4',
-    collate: 'utf8mb4_general_ci'
+    collate: 'utf8mb4_general_ci',
+    timestamps: false
   });
   return diarys;
 };

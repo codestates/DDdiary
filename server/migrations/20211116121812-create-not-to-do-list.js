@@ -1,10 +1,7 @@
 'use strict';
-
-const { sequelize } = require("../models");
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('notToDoLists', {
+    await queryInterface.createTable('notToDoList', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -19,23 +16,25 @@ module.exports = {
         allowNull: false,        
         type: Sequelize.BOOLEAN,
         defaultValue: false
-      },
-      createAt: {
-        allowNull: false,
-        type: Sequelize.INTEGER
       }
     })
-    .then(
-      () => {
-        queryInterface.addColumn('userNotToDolist','notToDoListId', {
-          type: Sequelize.INTEGER,
-          allowNull: true,
-          references: {model: 'notToDoLists', key: 'id'}
-        })
-      }
-    );
+    .then(function () {
+      queryInterface.addColumn('notToDoList', 'userId', {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        onDelete: 'CASCADE',
+        references: { model: 'userDate', key: 'userId' },
+      });
+    })
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('notToDoLists');
+    let sql ='SET FOREIGN_KEY_CHECKS = 0';
+    const foreignKey = ()=> {
+      return queryInterface.sequelize.query(sql, {
+        type: Sequelize.QueryTypes.RAW,
+      })
+    }
+    await foreignKey()
+    await queryInterface.dropTable('notToDoList');
   }
 };

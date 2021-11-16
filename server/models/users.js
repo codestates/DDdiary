@@ -6,22 +6,13 @@ module.exports = (sequelize, DataTypes) => {
   class users extends Model {
 
     static associate(models) {
-      models.users.belongsToMany(models.diarys, {
-        through: 'userDiary',
+      models.users.belongsToMany(models.dateStorage, {
+        through: 'userDate',
         targetKey: 'id',
         foreignKey: 'userId',
-        onDelete: 'cascade',
-        onUpdate: 'cascade'
+        onDelete: 'CASCADE',
+        //onUpdate: 'CASCADE'
       });
-      models.users.belongsToMany(models.notToDoList, {
-        through: 'userNotToDoList',
-        targetKey: 'id',
-        foreignKey: 'userId',
-        onDelete: 'cascade',
-        onUpdate: 'cascade'
-      })
-
-
     }
   };
   users.init({

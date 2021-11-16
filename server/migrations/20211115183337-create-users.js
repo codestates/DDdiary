@@ -41,26 +41,24 @@ module.exports = {
     })
     .then(
       () => {
-        queryInterface.addColumn('userDiary', 'userId', {
+        queryInterface.addColumn('userDate', 'userId', {
           type: Sequelize.INTEGER,
           allowNull: true,
+          //onUpdate: 'CASCADE',
           onDelete: 'CASCADE',
           references: {model: 'users', key:'id'}
         })
       }
     )
-    .then(
-      () => {
-        queryInterface.addColumn('userNotToDolist', 'userId', {
-          type: Sequelize.INTEGER,
-          allowNull: true,
-          onDelete: 'CASCADE',
-          references: {model: 'users', key:'id'}
-        })
-      }  
-    )
   },
   down: async (queryInterface, Sequelize) => {
+    let sql ='SET FOREIGN_KEY_CHECKS = 0';
+    const foreignKey = ()=> {
+      return queryInterface.sequelize.query(sql, {
+        type: Sequelize.QueryTypes.RAW,
+      })
+    }
+    await foreignKey()
     await queryInterface.dropTable('users');
   }
 };

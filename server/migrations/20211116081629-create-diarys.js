@@ -12,22 +12,28 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      createAt: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      }
+      // userId: {
+      //   allowNull: true,
+      //   type: Sequelize.STRING
+      // }
     })
-    .then(()=> {
-      queryInterface.addColumn('userDiary','diaryId', {
+    .then(function () {
+      queryInterface.addColumn('diarys', 'userId', {
         type: Sequelize.INTEGER,
         allowNull: true,
         onDelete: 'CASCADE',
-        references: { model: 'diarys', key: 'id' }
-      })
-    }
-    )
+        references: { model: 'userDate', key: 'userId' },
+      });
+    })
   },
   down: async (queryInterface, Sequelize) => {
+    let sql ='SET FOREIGN_KEY_CHECKS = 0';
+    const foreignKey = ()=> {
+      return queryInterface.sequelize.query(sql, {
+        type: Sequelize.QueryTypes.RAW,
+      })
+    }
+    await foreignKey()
     await queryInterface.dropTable('diarys');
   }
 };
