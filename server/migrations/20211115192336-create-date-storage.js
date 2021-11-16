@@ -2,6 +2,10 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('dateStorage', {
+      id: {
+        allowNull: true,
+        type: Sequelize.INTEGER
+      },
       pushDate: {
         allowNull: false,
         type: Sequelize.INTEGER,
@@ -9,7 +13,7 @@ module.exports = {
       }
     })
     .then(()=> {
-      queryInterface.addColumn('userDate', 'pushDate', {
+      queryInterface.addColumn('userDate', 'pushDates', {
         type: Sequelize.INTEGER,
         allowNull: true,
         //onUpdate: 'CASCADE',
