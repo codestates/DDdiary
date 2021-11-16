@@ -39,9 +39,10 @@ function MainPageComponent() {
         setTodoMsg(event.target.value)
     };
     const todoButtonClick = (event) => {
+      const a = todoMsg + todoItem
         const todo = {
           date: pickDate,
-          content: todoMsg
+          content: a
         };
         setTodoData([todo, ...todoData])
     };
