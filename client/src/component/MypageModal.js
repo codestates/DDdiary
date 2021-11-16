@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import { useDispatch, useSelector } from "react-redux";
+import { setUserInfo, setIsLogin } from "../actions/LoginAction";
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 //디자인페이지. 기능은 마이페이지에서
+
+    
 
 export const ModalContainer = styled.div`
   display:grid;
@@ -56,7 +62,14 @@ export const Modal = (props) => {
   const [isOpen, setIsOpen] = useState(true);
   const [password, setPassword] = useState('');
   const closeModal = props.closeModal
-  const userDeleteHandler = props.userDeleteHandler
+  const initializeHandler = props.initializeHandler
+
+    const dispatch = useDispatch();
+    const LoginState = useSelector(state => state.LoginReducer);
+    console.log('LoginState.user_detail:',LoginState.user)
+    const history = useHistory();
+    const { email } = LoginState.user
+    const { id } = LoginState.user
    
   
   const openModalHandler = () => {
@@ -68,6 +81,33 @@ export const Modal = (props) => {
     setPassword(e.target.value);
 };
 
+const userDeleteHandler = async (e) => {
+  
+  try {
+      e.stopPropagation()
+
+      // const passwordCheckResp = await axios.post('http://localhost:4000/oauth/password', password, { accept: "application/json", withCredentials: true })
+      //           if (passwordCheckResp.message === "Invalid password") {
+      //               console.log('비밀번호를 확인해주세요')
+      //               return;
+      //           } 
+      //아직 서버 미구현
+
+      //const getUserData = await axios.get(`http://localhost:4000/users/${id}`,{ accept: "application/json", withCredentials: true })
+      const body = {email:email,password:password} // 유저 누군지 알려줘야 함. 유저아이디나 토큰, 이메일로 판단
+      //body 보내면 이상생김
+      const userDeleteResult = await axios.delete('http://localhost:4000/users', body, { accept: "application/json", withCredentials: true })
+      console.log('userDeleteResult_detail:',userDeleteResult)
+      initializeHandler()
+      dispatch(setUserInfo(null))
+      dispatch(setIsLogin(false))
+      history.push('/');
+  } catch (err) {
+      console.log(err)
+  }
+}
+
+  
 
 
   return (
