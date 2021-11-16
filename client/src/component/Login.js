@@ -15,26 +15,70 @@ import styled from 'styled-components'
 
 
 const Container = styled.div`
+    position: absolute;
     border: 0.5px solid gray;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-   
+    /* height: 70%; */
+    /* width: 52%; */
 `;
 const MainContainer = styled.div`
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    height: 35rem;
+    width: 25rem;
     border: 0.5px solid gray;
 `;
 const SocialloginContainer = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     border: 0.5px solid gray;
-    
+    height: 7rem;
+    width: 25rem;
 `;
 const LoginContainer = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     border: 0.5px solid gray;
+    height: 25rem;
+    width: 25rem;
+    
+    & .input_container{
+        font-size: small;
+        
+    };
+    & .input_email{
+       
+    };
+    & .input_password{
+        
+    };
 `
 const Button = styled.button`
+    position: relative;
     color: blue;
+`;
+const LogoImageTmp = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    background-color: greenyellow;
+    height: 30%;
+    width: 50%;
 `;
 
 
@@ -44,7 +88,7 @@ export default function Login(props) {
     const [email, SetEmail] = useState(''); //단순 이메일,비밀번호 입력감지용
     const [password, SetPassword] = useState('');
     const [errMessage, setErrMessage] = useState('');
-    const LoginState = useSelector(state=>state.LoginReducer);
+    const LoginState = useSelector(state => state.LoginReducer);
 
     const emailHandler = (e) => {
         SetEmail(e.target.value);
@@ -54,61 +98,73 @@ export default function Login(props) {
         SetPassword(e.target.value);
     };
 
-    const signupHandleer = ()=>{
+    const signupHandleer = () => {
         history.push('/Signup')
     }
 
-    const submitHandler_test = async (e)=>{
+    const submitHandler = async (e) => {
         e.preventDefault();
         const body = {
             email,
             password
         }
-         try { // body:{ email: '123', password: '1111' } 형식으로 전송
+        try {
+            //id,email.nickname,manager
             const response = await axios.post('http://localhost:4000/oauth/login', body, { accept: "application/json", withCredentials: true })
-            const loginResult = response.data ? response.data : 'NoUser' //이거 수정 필요
-            if(loginResult === 'NoUser'){
-               setErrMessage('아이디 또는 비밀번호를 확인해 주세요')
+            const { id, email, nickname, manager } = response.data.data
+            const loginResult = response.data ? response.data : "Invalid email or password" //이거 수정 필요
+            //data로 오는지 확인해서 바꿘야함
+            if (loginResult === "Invalid email or password") {
+                setErrMessage('아이디 또는 비밀번호를 확인해 주세요')
+                return;
             }
-            //response.data에 유저정보 있으면 dispatch(setUserInfo('유저정보'))
-            //로그인 응답오면 닉네임 등 양식 맞춰서 유저인포에 넣어야 함
-            dispatch(setUserInfo(body));
-            //로그인 응답오면 닉네임 등 양식 맞춰서 유저인포에 넣어야 함
-            dispatch(setIsLogin());
+            dispatch(setUserInfo({ id, email, nickname, manager }));
+            //id,email.nickname,manager가 userInfo로 들어감
+            dispatch(setIsLogin(true));
             history.push('/mainpage')
 
             // return loginResult
 
         } catch (err) {
-            console.log('에러발생:',err)
+            console.log('에러발생:', err)
         }
-    // console.log('LoginState:',LoginState)
+        // console.log('LoginState:',LoginState)
     };
+
+    const socialLoginHandler = async (e) => {
+        e.preventDefault();
+        const response = await axios.get('http://localhost:4000/oauth/google', { accept: "application/json", withCredentials: true })
+        console.log(response)
+    }
 
 
     return (
-        <Container>
-            <MainContainer>
-                <div className='Logo_Space'>
-                    로고이미지
-                </div>
-                <LoginContainer>
-                    <form className='input_container' onSubmit={submitHandler_test} >
-                        <input className='input_email' placeholder='이메일' onChange={emailHandler} required></input><br />
-                        <input className='input_password' placeholder='비밀번호' onChange={passwordHandler} required></input><br />
-                        <span>{errMessage}</span>
-                        <Button type='submit'>로그인</Button>
-                    </form>
-                    <div>
-                        <Button onClick={signupHandleer}>아이디가 없으세요? (회원가입)</Button> {/*회원가입페이지 연결 필요 */}
+        // <Container>
+        <MainContainer>
+            <LogoImageTmp>
+                로고이미지
+            </LogoImageTmp>
+            <LoginContainer>
+                <form className='input_container' onSubmit={submitHandler} >
+                    <div className='input_email'>
+                    <span className='input_container_text'>이메일</span>
+                    <input placeholder='이메일' onChange={emailHandler} required></input><br />
                     </div>
-                </LoginContainer>
-                <SocialloginContainer>
-                    <Button>소셜로그인1</Button>
-                    <Button>소셜로그인2</Button>
-                    <Button>소셜로그인3</Button>
-                </SocialloginContainer>
-            </MainContainer>
-        </Container>
+                    <div className='input_password'>
+                    <span className='input_container_text'>비밀번호</span>
+                    <input className='input_password' placeholder='비밀번호' onChange={passwordHandler} required></input><br />
+                    </div>
+                    <span>{errMessage}</span>
+                    <Button type='submit'>로그인</Button>
+                </form>
+                <div>
+                    <Button onClick={signupHandleer}>아이디가 없으세요? (회원가입)</Button> {/*회원가입페이지 연결 필요 */}
+                </div>
+            </LoginContainer>
+            <SocialloginContainer>
+                <Button onClick={socialLoginHandler} >구글로그인</Button>
+            </SocialloginContainer>
+        </MainContainer>
+        /* </Container> */
     )
 }

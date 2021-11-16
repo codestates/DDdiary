@@ -1,5 +1,4 @@
 export const SET_ISLOGIN = 'SET_ISLOGIN';
-export const SET_ISLOGOUT = 'SET_ISLOGOUT';
 export const SET_USERINFO = 'SET_USERINFO';
 export const SET_EMAIL = 'SET_EMAIL';
 export const SET_PASSWORD = 'SET_PASSWORD';
@@ -22,19 +21,13 @@ export function setUserInfo(data) {
     };
 }
 
-export function setIsLogin() {
+export function setIsLogin(data) {
     return{
         type:SET_ISLOGIN,
-        payload: true,
+        payload: data,
     };
 }
 
-export function setLogout() {
-    return{
-        type:SET_ISLOGOUT,
-        payload: false,
-    };
-}
 
 export function setEmail(data) {
     return{
