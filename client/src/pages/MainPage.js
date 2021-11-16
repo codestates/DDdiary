@@ -13,8 +13,6 @@ function MainPage() {
     // const dispatch = useDispatch();
     const [getMoment, setMoment]=useState(moment());
 
-    
-
     return (
         <div>
             <div>

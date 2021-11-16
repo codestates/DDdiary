@@ -1,0 +1,26 @@
+
+.menu {
+  opacity: 0;
+  /* 항목 시각화 설정 */
+  visibility: hidden;
+  /* 항목 숨기기 */
+  
+}
+.menu.active {
+  opacity: 1;
+  visibility: visible;
+}
+.menu.close {
+    display: none;
+}
+.menu ul {
+  list-style: none;
+  /* ul특유의 앞에 점 표시 가리기 */
+}
+.menu li{
+    font-size: 20px;
+}
+.menu-open {
+  background: #ffffff;
+
+}
