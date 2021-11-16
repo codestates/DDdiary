@@ -2,6 +2,7 @@ import React from 'react';
 import {useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
+import Dropdown from './DropDown';
 
 function MainPageComponent() {
     // const dispatch = useDispatch();
@@ -9,6 +10,7 @@ function MainPageComponent() {
     const [todoMsg, setTodoMsg] = useState("");
     const [todoData, setTodoData] = useState([{}]);
     const [pickDate, setPickDate] = useState(moment().format('YYYYMMDD'));
+    const [todoItem, setTodoItem] = useState('선택하세요');
 
     const today = getMoment;
     const firstWeek = today.clone().startOf('month').week();
@@ -37,9 +39,10 @@ function MainPageComponent() {
         setTodoMsg(event.target.value)
     };
     const todoButtonClick = (event) => {
+      const a = todoMsg + todoItem
         const todo = {
           date: pickDate,
-          content: todoMsg
+          content: a
         };
         setTodoData([todo, ...todoData])
     };
@@ -66,13 +69,13 @@ function MainPageComponent() {
                   );
                 }else if(days.format('MM') !== today.format('MM')){
                   return(
-                      <td key={index} style={{backgroundColor:'gray'}} >
+                      <td key={index}  >
                         <button style={{backgroundColor:'gray'}} onClick={(e) => handle(days.format('YYYYMMDD'))}>{days.format('D')}</button>
                       </td>
                   );
                 }else{
                   return(
-                      <td key={index}  >
+                      <td key={index}>
                         <button onClick={(e) => handle(days.format('YYYYMMDD'))}>{days.format('D')}</button>
                       </td>
                   );
@@ -108,8 +111,9 @@ function MainPageComponent() {
                     </div>
                   ) : (<div></div>)})}
             </div>
-            <textarea onChange={handleChangeMsg}></textarea>
-            <button onClick={todoButtonClick}>생성</button>
+            <div>
+              <Dropdown setTodoItem = {setTodoItem} todoItem = {todoItem} handleChangeMsg = {handleChangeMsg} todoButtonClick = {todoButtonClick}/>
+            </div>
         </div>
       );
 }
