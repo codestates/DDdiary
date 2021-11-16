@@ -1,6 +1,5 @@
 // 회원가입 완료 후 모달창 구현 필요
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components'
 import axios from 'axios';
@@ -83,11 +82,11 @@ export default function SignUpComponent() {
     const [userinfo, setuserinfo] = useState({
         email: '',
         password: '',
+        passwordConfirm: '',
         nickname: '',
         checkbox: false,
+        manager: false
     });
-
-    const dispatch = useDispatch();
 
     const [errorMessage, setErrorMessage] = useState('');
     const [warningTextEmail, setwarningTextEmail] = useState('');
@@ -104,9 +103,6 @@ export default function SignUpComponent() {
         nickname: false,
         checkbox: false
     });
-
-    const [isOpen, setIsOpen] = useState(false);
-
     const history = useHistory();
 
     const handleInputValue = (key) => (e) => {
@@ -135,20 +131,44 @@ export default function SignUpComponent() {
 
         if (!/^[a-zA-Z0-9!@#$%^*+=-]{8,16}$/.test(value) || chkNum < 0 || chkEng < 0 || spe < 0){
           if (/(\w)\1\1\1/.test(value)){
+            if(value !== userinfo.passwordConfirm && userinfo.passwordConfirm !== '') {
+              setwarningTextPasswordC('비밀번호가 일치하지 않습니다.');
+            }
+            else {
+              setwarningTextPasswordC('');
+            }
             setwarningTextPassword("같은 문자를 4번 이상 사용하실 수 없습니다.");
             setvalid({ ...valid, 'password': false });
           }
           else {
+            if(value !== userinfo.passwordConfirm && userinfo.passwordConfirm !== '') {
+              setwarningTextPasswordC('비밀번호가 일치하지 않습니다.');
+            }
+            else {
+              setwarningTextPasswordC('');
+            }
             setwarningTextPassword("8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.");
             setvalid({ ...valid, 'password': false });
           }
         }
         else {
           if (/(\w)\1\1\1/.test(value)){
+            if(value !== userinfo.passwordConfirm && userinfo.passwordConfirm !== '') {
+              setwarningTextPasswordC('비밀번호가 일치하지 않습니다.');
+            }
+            else {
+              setwarningTextPasswordC('');
+            }  
             setwarningTextPassword("같은 문자를 4번 이상 사용하실 수 없습니다.");
             setvalid({ ...valid, 'password': false });
           }
           else {
+            if(value !== userinfo.passwordConfirm && userinfo.passwordConfirm !== '') {
+              setwarningTextPasswordC('비밀번호가 일치하지 않습니다.');
+            }
+            else {
+              setwarningTextPasswordC('');
+            }
             setwarningTextPassword('');
             setvalid({ ...valid, 'password': true });
           }
@@ -204,21 +224,36 @@ export default function SignUpComponent() {
     };
 
     // 회원가입 버튼 관련 함수
-    const handleSignup = () => {
-      if(!valid.email || !valid.password || !valid.passwordConfirm || !valid.nickname|| !valid.checkbox ){
-        setErrorMessage('모든 항목은 필수입니다');
+    const handleSignup = async (e)=>{
+      e.preventDefault();
+      const body = {
+        email: userinfo.email,
+        password: userinfo.password,
+        nickname: userinfo.nickname
       }
-      else{
-          setIsOpen(!isOpen);
-        axios.post('http://localhost:4000/oauth/signup',userinfo,
-        { accept: "application/json", withCredentials: true });
-      history.push("/loginpage");
-      };
-    };
-    
-    // 회원가입 완료 모달창
-    const openModalHandler = () => {
-      setIsOpen(!isOpen);
+      try {
+        if(!valid.email || !valid.password || !valid.passwordConfirm || !valid.nickname|| !valid.checkbox ){
+          setErrorMessage('모든 항목은 필수입니다');
+        }
+        else{ // 회원가입에 필요한 정보를 다 입력했을 경우
+          // setIsOpen(!isOpen);
+          const resp = await axios.post('http://localhost:4000/oauth/signup',body,
+          { accept: "application/json", withCredentials: true });
+          // 아래는 서버에 회원정보 전송해서 받을 값에 대한 코드임.
+          // TODO 받는 게 무엇이냐에 다라 수정 필요하며, 이메일이 중복되어 거부될 경우 경고 메시지 보내야 함.
+          const reqResult = resp.data ? resp.data : false;
+          if( reqResult ) { // 전달받은 값이 승인될 경우
+            console.log(reqResult);
+            history.push("/loginpage");
+          }
+          else { // 승인되지 않을 경우 = 이메일 중복됨
+            setErrorMessage('이미 가입된 이메일입니다.');
+          }
+        };
+      }
+      catch (err) {
+        console.log('에러발생:',err)
+      }
     };
 
 
