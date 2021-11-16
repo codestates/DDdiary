@@ -4,6 +4,8 @@ import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserInfo, setIsLogin } from "../actions/LoginAction";
 
 axios.defaults.withCredentials = true;
 
@@ -37,6 +39,11 @@ export const ConfirmBtn = styled.button`
   border-radius: 0.5rem;
   cursor: pointer;
   margin: 1rem 1.5rem;
+
+  & .isLogin {
+    background-color: #53D0DB;
+    color: black;
+  }
 `;
 
 export const IntroContainer = styled.div`
@@ -63,6 +70,8 @@ export const IntroductionTextContent = styled.div`
 export const Intro = () => {
 
   const [isLogin, setIsLogin] = useState(false);
+  
+  const LoginState = useSelector(state => state.LoginReducer);
 
   const loginHandler = () => {
     setIsLogin(!isLogin)
@@ -70,9 +79,12 @@ export const Intro = () => {
 
   return (
     <>
+        {LoginState.isLogin ? <ConfirmBtn className='isLogin'>
+        로그인 상태입니다
+        </ConfirmBtn> :
         <Link exact to ="/loginpage"><ConfirmBtn onClick={loginHandler}>
         로그인
-        </ConfirmBtn></Link>
+        </ConfirmBtn></Link>}
         <IntroContainer>
           <IntroductionText>어플 소개글</IntroductionText>
           <IntroductionTextContent>여기엔 사진같이 무언가 소개하는 거</IntroductionTextContent>

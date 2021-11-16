@@ -15,13 +15,15 @@ import styled from 'styled-components'
 
 
 const Container = styled.div`
+position: relative;
     border: 0.5px solid gray;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-   
+    /* height: 70%; */
+    /* width: 52%; */
 `;
 const MainContainer = styled.div`
     border: 0.5px solid gray;
@@ -58,7 +60,7 @@ export default function Login(props) {
         history.push('/Signup')
     }
 
-    const submitHandler_test = async (e)=>{
+    const submitHandler = async (e)=>{
         e.preventDefault();
         const body = {
             email,
@@ -85,15 +87,21 @@ export default function Login(props) {
     // console.log('LoginState:',LoginState)
     };
 
+    const socialLoginHandler = async (e) => {
+        e.preventDefault();
+        const response = await axios.get('http://localhost:4000/oauth/google',{ accept: "application/json", withCredentials: true })
+        console.log(response)    
+    }
+
 
     return (
-        <Container>
+        // <Container>
             <MainContainer>
                 <div className='Logo_Space'>
                     로고이미지
                 </div>
                 <LoginContainer>
-                    <form className='input_container' onSubmit={submitHandler_test} >
+                    <form className='input_container' onSubmit={submitHandler} >
                         <input className='input_email' placeholder='이메일' onChange={emailHandler} required></input><br />
                         <input className='input_password' placeholder='비밀번호' onChange={passwordHandler} required></input><br />
                         <span>{errMessage}</span>
@@ -104,11 +112,9 @@ export default function Login(props) {
                     </div>
                 </LoginContainer>
                 <SocialloginContainer>
-                    <Button>소셜로그인1</Button>
-                    <Button>소셜로그인2</Button>
-                    <Button>소셜로그인3</Button>
+                    <Button onClick={socialLoginHandler} >구글로그인</Button>
                 </SocialloginContainer>
             </MainContainer>
-        </Container>
+        /* </Container> */
     )
 }
