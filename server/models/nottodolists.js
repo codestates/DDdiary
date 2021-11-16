@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
 
       models.notToDoList.belongsTo(models.userDate, {
         foreignKey: 'userId',
-        as: 'userDate',
-        targetKey: 'userId',
+        //as: 'userDate',
+        sourceKey: 'userId',
         onDelete: 'CASCADE',
         //onUpdate: 'CASCADE'
       })

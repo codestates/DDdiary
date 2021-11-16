@@ -21,7 +21,8 @@ class userDate extends Model {
     }
 };
 userDate.init({
-
+    pushDate:DataTypes.INTEGER,
+    userId:DataTypes.STRING
 }, {
     sequelize,
     modelName: 'userDate',

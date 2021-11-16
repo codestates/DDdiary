@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.users.belongsToMany(models.dateStorage, {
         through: 'userDate',
-        targetKey: 'id',
+        sourceKey: 'id',
         foreignKey: 'userId',
         onDelete: 'CASCADE',
         //onUpdate: 'CASCADE'

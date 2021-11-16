@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.dateStorage.belongsToMany(models.users, {
         through: 'userDate',
-        targetKey: 'pushDate',
-        foreignKey: 'pushDate',
+        sourceKey: 'pushDate',
+        foreignKey: 'pushDates',
         onDelete: 'CASCADE',
         //onUpdate: 'CASCADE'
       })
@@ -21,7 +21,9 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'dateStorage',
     charset: 'utf8mb4',
-    collate: 'utf8mb4_general_ci'
+    collate: 'utf8mb4_general_ci',
+    timestamps:false,
+    freezeTableName: true
   });
   return dateStorage;
 };
