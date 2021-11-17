@@ -23,7 +23,7 @@ app.use(express.urlencoded({extended: true}))
 app.use('/users', userRouter);
 app.use('/todolist', todolistRouter);
 app.use('/oauth', oauthRouter);
-app.use('/diary', diaryRouter);
+app.use('/diarys', diaryRouter);
 
 let server;
 // if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {

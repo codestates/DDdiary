@@ -50,6 +50,7 @@ export const IntroContainer = styled.div`
   background-color: #53D0DB;
   display: flex;
   width: 24rem;
+  height: 33rem;
   border-radius: 10px;
   margin: 1rem auto;
   flex-direction:column;
@@ -58,13 +59,21 @@ export const IntroContainer = styled.div`
 export const IntroductionText = styled.div`
   font-weight: bold;
   font-size: 35px;
-  margin: 2rem auto;
+  margin: 3.5rem 0rem 2rem 0rem;
 `;
 
 export const IntroductionTextContent = styled.div`
-  font-weight: bold;
+  font-weight: normal;
   font-size: 20px;
-  line-height: 25rem;
+  line-height: 2rem;
+  text-align: justify;
+  margin: 0.5rem 2rem 2rem 2rem;
+  & .line {
+    font-weight: bold;
+    text-align: center;
+    font-size: 26px;
+    line-height: 5rem;
+  }
 `;
 
 export const Intro = () => {
@@ -86,8 +95,13 @@ export const Intro = () => {
         로그인
         </ConfirmBtn></Link>}
         <IntroContainer>
-          <IntroductionText>어플 소개글</IntroductionText>
-          <IntroductionTextContent>여기엔 사진같이 무언가 소개하는 거</IntroductionTextContent>
+          <IntroductionText>DDdiary</IntroductionText>
+          <IntroductionTextContent>
+          <div className='line'>일기로 기록하는 낫투두리스트</div>
+          <div>DDdiary는 낫투두리스트를 기반으로 하는 일기 자동생성 기능을 제공합니다.</div>
+          <div>메모처럼 간단하게 기록되지만, 약간의 동기부여 코멘트가 추가되어서 기억 한켠에 조금 더 깊은 인상을 줄 수 있습니다.
+이 일기는 언젠가 오늘을 되돌아보고 싶을 때 리스트가 아니라 다짐을 떠올릴 수 있도록 도와줄 수 있습니다.</div>
+            </IntroductionTextContent>
         </IntroContainer>
     </>
   );

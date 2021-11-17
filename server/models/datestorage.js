@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       models.dateStorage.belongsToMany(models.users, {
         through: 'userDate',
         sourceKey: 'pushDate',
-        foreignKey: 'pushDates',
+        foreignKey: 'pushDate',
         onDelete: 'CASCADE',
         //onUpdate: 'CASCADE'
       })

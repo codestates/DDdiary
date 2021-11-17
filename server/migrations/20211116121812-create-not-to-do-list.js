@@ -16,6 +16,10 @@ module.exports = {
         allowNull: false,        
         type: Sequelize.BOOLEAN,
         defaultValue: false
+      },
+      date: {
+        allowNull: false,
+        type: Sequelize.INTEGER
       }
     })
     .then(function () {
@@ -23,7 +27,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
         onDelete: 'CASCADE',
-        references: { model: 'userDate', key: 'userId' },
+        references: { model: 'users', key: 'id' },
       });
     })
   },

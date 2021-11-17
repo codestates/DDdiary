@@ -3,23 +3,21 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const isAuth = (req, res, next) => {
-    const token = req.cookies['jwt'];
-    console.log('sssssssssss')
-    if (!token) {
+const token = req.cookies['jwt'];
+    console.log('auth 확인 후 userId reqdp 포함 미들웨어')
+    console.log(req.cookies)
+if (!token) {
+    return res.status(401).json({ "message": "not authorized" });
+}
+try {
+    jwt.verify(token, process.env.ACCESS_SECRET , async (err, encoded) => {
+    if (err) {
         return res.status(401).json({ "message": "not authorized" });
     }
-    try {
-        jwt.verify(token, process.env.ACCESS_SECRET, async (err, encoded) => {
-            if (err) {
-                //console.log('err내용:',err)
-                return res.status(401).json({ "message": "not authorized" });
-            }
-            const usersInfo = await users.findOne({ where: { id: encoded.id } });
-            
+    const usersInfo = await users.findOne({ where: { id: encoded.id } });
     if (!usersInfo) {
         return res.status(401).json({ "message": "not authorized" });
     }
-   
     req.userId = encoded.id;
     return next();
     });

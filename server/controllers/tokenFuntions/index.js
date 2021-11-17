@@ -21,12 +21,12 @@ module.exports = {
     }).json(userData);
     return ;
     },
-    isAuthorized: (req) => {
+    // isAuthorized: (req) => {
 
-    let token = req.cookies.jwt;
+    // let token = req.cookies.jwt;
     
-    let data = verify(token, process.env.ACCESS_SECRET)
+    // let data = verify(token, process.env.ACCESS_SECRET)
 
-    return data;
-    }
+    // return data;
+    // }
 };

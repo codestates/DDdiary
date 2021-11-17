@@ -5,7 +5,7 @@ import moment from 'moment';
 import Dropdown from './DropDown';
 import Diary from './Diary';
 import styled from 'styled-components'
-import './DropDown.css';
+import './MainPage.css';
 
 function MainPageComponent() {
     // const dispatch = useDispatch();
@@ -13,7 +13,7 @@ function MainPageComponent() {
     const [todoMsg, setTodoMsg] = useState("");
     const [todoData, setTodoData] = useState([]);
     const [pickDate, setPickDate] = useState(moment().format('YYYYMMDD'));
-    const [todoItem, setTodoItem] = useState('선택하세요');
+    const [todoItem, setTodoItem] = useState('직접 작성');
     const [ttoday, setToday] = useState(moment().format('YYYYMMDD'));
     const today = getMoment;
     const firstWeek = today.clone().startOf('month').week();
@@ -142,12 +142,12 @@ function MainPageComponent() {
                 {calendarArr()}
             </tbody>
         </table>
-        <div>{[pickDate.slice(0,4),'년',pickDate.slice(4,6),'월',pickDate.slice(6),'일'].join('')}</div>
+        <div className='todo-selectday'>{[pickDate.slice(0,4),'년',pickDate.slice(4,6),'월',pickDate.slice(6),'일'].join('')}</div>
             <div>{todoData.map((todolist) => {
                 return todolist.date === pickDate && todolist.content ? (
                     <div>
-                        <button>{todolist.checked ? 'V' : 'X'}</button>
-                        {todolist.content}
+                        <button className='todo-button'>{todolist.checked ? 'V' : 'X'}</button>
+                        <span className='todo-Content'>{todolist.content}</span>
                     </div>
                   ) : (<div></div>)})}
             </div>
@@ -170,15 +170,15 @@ function MainPageComponent() {
                 {calendarArr()}
             </tbody>
         </table>
-        <div>{[pickDate.slice(0,4),'년',pickDate.slice(4,6),'월',pickDate.slice(6),'일'].join('')}</div>
+        <div className='todo-selectday'>{[pickDate.slice(0,4),'년',pickDate.slice(4,6),'월',pickDate.slice(6),'일'].join('')}</div>
         <button onClick={diaryCreatButton}>일기 생성</button>
             <div>{todoData.map((todolist) => {
                 // console.log(todolist)
                 return todolist.date === pickDate && !todolist.diaryContent ? (
                     <div>
-                        <button onClick={(e) =>checkBoxButton(todolist,e)}>{todolist.checked ? 'V' : 'X'}</button>
-                        {todolist.content}
-                        <button onClick={() => todoButtonDeleteClick(todolist) }>삭제</button>
+                        <button className='todo-button' onClick={(e) =>checkBoxButton(todolist,e)}>{todolist.checked ? 'V' : 'X'}</button>
+                        <span className='todo-Content'>{todolist.content}</span>
+                        <button className='todo-button' onClick={() => todoButtonDeleteClick(todolist) }>삭제</button>
                     </div>
                   ) : (<div></div>)})}
             </div>

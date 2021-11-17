@@ -13,7 +13,7 @@ module.exports = {
       }
     })
     .then(()=> {
-      queryInterface.addColumn('userDate', 'pushDates', {
+      queryInterface.addColumn('userDate', 'pushDate', {
         type: Sequelize.INTEGER,
         allowNull: true,
         //onUpdate: 'CASCADE',

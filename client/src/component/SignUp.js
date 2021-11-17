@@ -247,7 +247,6 @@ export default function SignUpComponent() {
           if( reqResult.message === 'signUp!' ) { // 전달받은 값이 승인될 경우
             console.log(reqResult.message);
             setIsOpen(!isOpen);
-            history.push("/signup/success");
           }
           else { // 승인되지 않을 경우 = 이메일 중복됨
             setErrorMessage('이미 가입된 이메일입니다.');
@@ -257,6 +256,7 @@ export default function SignUpComponent() {
       }
       catch (err) {
         console.log('에러발생:',err)
+        setErrorMessage('이미 가입된 이메일입니다.');
       }
     };
 

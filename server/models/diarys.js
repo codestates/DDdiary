@@ -7,10 +7,9 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
 
-      models.diarys.belongsTo(models.userDate, {
+      models.diarys.belongsTo(models.users, {
         foreignKey: 'userId',
-        //as: 'userDate',
-        sourceKey: 'userId',
+        sourceKey: 'id',
         onDelete: 'CASCADE',
         //onUpdate: 'CASCADE'
       })
@@ -18,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
   };
   diarys.init({
     content: DataTypes.STRING,
-    userId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
+    date: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'diarys',

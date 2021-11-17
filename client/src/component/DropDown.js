@@ -8,7 +8,7 @@ import './DropDown.css';
 // `;
 
 const Dropdown = ({setTodoItem, todoItem, handleChangeMsg, todoButtonClick}) => {
-    const list = ['하지않기','먹지않기','엥하지않기','하지않기','하지않기','하지않기']
+    const list = [' 하지 않기',' 먹지 않기',' 가지 않기',' 보지 않기',' 듣지 않기']
 
 
     const [isActive, setIsActive] = useState(false);
@@ -32,7 +32,7 @@ const Dropdown = ({setTodoItem, todoItem, handleChangeMsg, todoButtonClick}) => 
         <div className={`menu ${isActive ? 'active' : 'close'}`}>
           <ul>
             {list.map((el) => {
-                return <li onClick={todoItemClick}>{el}</li>
+                return <li className='dropDown-Content' onClick={todoItemClick}>{el}</li>
             })}
           </ul>
         </div>

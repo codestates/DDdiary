@@ -3,6 +3,7 @@ const {sendAccessToken, generateAccessToken} = require('../../controllers/tokenF
 
 module.exports = {
     userInfo: async (req, res) => {
+        console.los(req.userId)
         const userInfo = await db.users.findOne({
             where: { id: req.userId }
         })
@@ -46,6 +47,7 @@ module.exports = {
         await db.users.destroy({
             where: {id: req.userId}
         })
+        res.clearCookie('jwt');
         res.status(200).json({ "message": "sign out!"});
         return ;
         } catch (err) {
