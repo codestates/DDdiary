@@ -1,5 +1,5 @@
 import './App.css';
-import { Intro, MainContainer, PageContainer } from './pages/Intro';
+import { Intro, MainContainer, PageContainer, IntroContainer } from './pages/Intro';
 import  MainPage  from './pages/MainPage';
 import  LoginPage  from './pages/Login'
 import  MyPage  from './pages/MyPage';
@@ -23,16 +23,24 @@ function App() {
         <Intro/>
       </Route>
       <Route path="/mainpage">
+        <IntroContainer>
         <MainPage />
+        </IntroContainer>
       </Route>
       <Route path="/mypage">
+        <IntroContainer>
         <MyPage />
+        </IntroContainer>
       </Route>
       <Route path="/loginpage">
+        <IntroContainer>
         <LoginPage />
+        </IntroContainer>
       </Route>
       <Route exact path="/signup">
+        <IntroContainer>
         <SignUp />
+        </IntroContainer>
       </Route>
     </Switch>
     </PageContainer>

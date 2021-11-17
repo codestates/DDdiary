@@ -4,43 +4,12 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components'
 import axios from 'axios';
 import { SignUpSuccess } from '../pages/SignUpSuccess';
+import './SignUp.css';
 
 axios.defaults.withCredentials = true;
 
-export const ModalBackdrop = styled.div`
-  position: fixed;
-  z-index: 999;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgba(0,0,0,0.4);
-  display: grid;
-  place-items: center;
-`;
-
-export const ModalView = styled.div.attrs(props => ({
-  role: 'dialog'
-}))`
-    border-radius: 10px;
-    background-color: #ffffff;
-    width: 300px;
-    height: 100px;
-
-    > div.close_btn {
-      margin-top: 5px;
-      cursor: pointer;
-    }
-
-    > div.desc {
-      margin-top: 25px;
-      color: #4000c7;
-    }
-`;
-
 
 const Container = styled.div`
-    border: 0.5px solid gray;
     box-sizing: border-box;
     display: grid;
     grid-template-areas: 
@@ -49,27 +18,30 @@ const Container = styled.div`
      "foot foot foot";
 `;
 const MainContainer = styled.div`
-    border: 0.5px solid gray;
+    margin: 0rem 0rem 1rem 0rem;
+    font-size: 2rem;
     grid-area: center;
 `;
 
 const LoginContainer = styled.div`
-    border: 0.5px solid gray;
+    margin: 2rem 0rem 0rem 0rem;
+    line-height: 2rem;
     > .input_container {
         font-weight: bold;
-        font-size: 15px;
+        font-size: 17px;
         letter-spacing:0.2rem;
       }
     & .text_line {
         text-align: left;
-        font-size: 15px;
+        font-size: 17px;
         padding: 0rem 0rem 0rem 3rem;
     }
     & .field {
         margin: 0rem 0rem 1rem 0rem;
     }
     & .warning_text {
-        font-size: 13px;
+        font-weight: normar;
+        font-size: 14px;
         color: red;
     }
 `
@@ -149,7 +121,7 @@ export default function SignUpComponent() {
             else {
               setwarningTextPasswordC('');
             }
-            setwarningTextPassword("8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.");
+            setwarningTextPassword("8~16자 숫자, 영/특수문자를 사용하세요.");
             setvalid({ ...valid, 'password': false });
           }
         }
@@ -269,30 +241,28 @@ export default function SignUpComponent() {
       {isOpen ? <SignUpSuccess /> :
         <Container>
             <MainContainer>
-                회원가입창
-                <div className='Logo_Space'>
-                    로고이미지
-                </div>
+            <img className='logo-title' alt='logo' src='/로고onlyTITLE.png' />
+                <div>회원가입</div>
                 <LoginContainer>
                     <form className='input_container' onSubmit={(e) => e.preventDefault()} >
                         <div className='text_line'>이메일</div>
                         {warningTextEmail !== '' ? <div className='warning_text'>{warningTextEmail}</div> : null}
-                        <input className='input_email field' placeholder='이메일'
+                        <input className='input_email field signUpInput' placeholder='이메일'
                         type='email' onChange={handleInputValue('email')} required></input><br />
 
                         <div className='text_line'>비밀번호</div>
                         {warningTextPassword !== '' ? <div className='warning_text'>{warningTextPassword}</div> : null}
-                        <input className='input_password' placeholder='비밀번호'
+                        <input className='input_password signUpInput' placeholder='비밀번호'
                         type='password' onChange={handleInputValue('password')} required></input><br />
 
                         <div className='text_line'>비밀번호 확인</div>
                         {warningTextPasswordC !== '' ? <div className='warning_text'>{warningTextPasswordC}</div> : null}
-                        <input className='input_password field' placeholder='비밀번호 다시 한 번'
+                        <input className='input_password field signUpInput' placeholder='비밀번호 다시 한 번'
                         type='password' onChange={handleInputValue('passwordConfirm')} required></input><br />
 
                         <div className='text_line'>닉네임</div>
                         {warningNickname !== '' ? <div className='warning_text'>{warningNickname}</div> : null}
-                        <input className='input_email field' placeholder='닉네임'
+                        <input className='input_email field signUpInput' placeholder='닉네임'
                         type='text' onChange={handleInputValue('nickname')} required></input><br />
 
                         <div className='text_line'>개인정보 수집에 동의하십니까?</div>
