@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const userPatch = require('../controllers/users/userPatch')
-const userInfo = require('../controllers/users/userInfo')
-const userDelete = require('../controllers/users/userDelete')
-router.get('/', (req, res)=> {
-    res.send('/routers.users')
-})
-router.get('/:id', userInfo.userInfo)
-router.patch('/',userPatch.userPatch);
-router.delete('/',userDelete.userDelete)
+const index = require('../controllers/users')
+const auth = require('../middleware/verifyToken');
+
+router.get('/checkToken', index.userToken)
+router.use(auth)
+router.get('/', index.userInfo);
+router.patch('/', index.userPatch);
+router.delete('/',index.userDelete);
 
 
 module.exports = router

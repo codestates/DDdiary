@@ -1,26 +1,59 @@
 const db = require('../../models');
-const {isAuthorized} = require('../../controllers/tokenFuntions')
-
-
+const {sendAccessToken, generateAccessToken} = require('../../controllers/tokenFuntions')
 
 module.exports = {
     userInfo: async (req, res) => {
-        const jwt = req.cookies.jwt;
-        if (!jwt) {
-            res.status(401).json({"message": "not authorized"});
-            return ;
+        const userInfo = await db.users.findOne({
+            where: { id: req.userId }
+        })
+        if(!userInfo) {
+            res.status(500).json({ "messag": "Server Error"});
+            return;
         }
-        else if(jwt) {
-        const userData = isAuthorized(jwt);
-        if(userData) {
-            //하는중
-        }
-        }
+        res.status(200).json({ "data": userInfo})
     },
     userPatch: async (req, res) => {
-
+        const { nickname, password } = req.body;
+        const userInfo = await db.users.findOne({
+            where: {id: req.userId}
+        })
+        if(userInfo.socialType !== 'basic') {
+            await db.users.update({
+                nickname: nickname
+            },
+            {
+                where: {id: req.userId }
+            })
+            res.status(200).json({ "message":"Patched"})
+            return;
+        }
+        else {
+            await db.users.update({
+                nickname: nickname,
+                password: password
+            },
+            {
+                where: {id: req.userId}
+            })
+            res.status(200).json({ "message":"Patched"})
+            return;
+        }
     },
     userDelete: async (req, res) => {
-
+        try {
+        await db.users.destory({
+            where: {id: req.userId}
+        })
+        res.status(200).json({ "message": "sign out!"});
+        return ;
+        } catch (err) {
+        console.log(err);
+        res.status(500).json({"message": "Server Error"});
+        return ;
+        }
+    },
+    userToken: async (req, res) => {
+        const token = generateAccessToken({ id:1 });
+        sendAccessToken(res, token, {"asd": "asd"});
     }
 }

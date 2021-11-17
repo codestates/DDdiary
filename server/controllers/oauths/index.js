@@ -35,38 +35,31 @@ module.exports = {
             return res.status(500).json({ "message": "Server Error"});
         }
     },
-    email: async(req, res) => {
-        const {email} = req.body;
+    signUp: async(req, res) => {
+        const {email, password, nickname} = req.body;
         const emailCheck = await db.users.findOne({
             where: {email: email}
         })
-        if(emailCheck) {
+        if (emailCheck) {
             res.status(409).json({ "message": "Email already exists"});
             return;
         }
-        else if(!emailCheck) {
-            res.status(200).json({ "message": "Email Available!"});
+        else if (!emailCheck) {
+            await db.users.create({
+                email: email, password:password, nickname:nickname
+            })
+            res.status(201).json({ "message": "signUp!"});
             return;
         }
-        else {
-            res.status(500).json({ "message": "Server Error"})
+        else{
+        res.status(500).json({ "message": "Server Error"});
+        return;
         }
-    },
-    signUp: async(req, res) => {
-        const {email, password, nickname} = req.body;
-        if(email && password && nickname) {
-            await db.users.create({
-                email:email, password:password, nickname:nickname
-            });
-            res.status(201).json({ "message": "signUp!"});
-            return ;
-        }
-        res.status(500).json({ "message": "Server Error"})
     },
     password: async(req, res) => {
         
         const {email, password} = req.body;
-        const checkPassword = await db.users.create({
+        const checkPassword = await db.users.findOne({
             where: {email: email, password: password}
         })
         if(!checkPassword) {
