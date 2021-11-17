@@ -5,8 +5,10 @@
 }
 
 .todo-button {
+    color:rgb(255, 0, 0);
     margin: 0.5rem;
-    
+    height: 25px;
+    width: 25px;
 }
 
 .todo-Content {
@@ -18,20 +20,16 @@
 .V {
     background-color: green;
 }
-.container{
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+.todo-close {
+    margin: 0.5rem;
+    font-weight: bold;
+    color: rgb(38, 0, 251);
+    height: 25px;
+    width: 25px;
+}
+.calendar {
+    /* background-color: rgb(255, 0, 0); */
     
 }
-table{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-}
-tbody{
-    position: relative;
-}
+

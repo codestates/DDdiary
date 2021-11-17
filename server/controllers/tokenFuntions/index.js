@@ -1,5 +1,6 @@
 require('dotenv').config()
-const { sign, verify } = require('jsonwebtoken');
+const { sign } = require('jsonwebtoken');
+const DOMAIN = process.env.DOMAIN || 'localhost'
 
 module.exports = {
     generateAccessToken: (data) => {
@@ -13,20 +14,12 @@ module.exports = {
         userData = userData || {data: null}
     // TODO: JWT 토큰을 쿠키로 전달합니다.
     res.status(200).cookie("jwt", token,{
-        domain: 'localhost',
+        domain: DOMAIN,
         path: '/',
         secure: true,
         httpOnly: true,
         sameSite:'Strict'
     }).json(userData);
     return ;
-    },
-    // isAuthorized: (req) => {
-
-    // let token = req.cookies.jwt;
-    
-    // let data = verify(token, process.env.ACCESS_SECRET)
-
-    // return data;
-    // }
+    }
 };
