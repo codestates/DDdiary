@@ -1,0 +1,20 @@
+.todo-selectday {
+    font-size: 25px;
+    color: #1c2bff;
+    margin: 1rem 0.5rem 0.5rem 0.5rem;
+}
+
+.todo-button {
+    margin: 0.5rem;
+    
+}
+
+.todo-Content {
+    font-size: 15px;
+}
+.X {
+    background-color: blue;
+}
+.V {
+    background-color: green;
+}
