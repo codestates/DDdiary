@@ -18,3 +18,20 @@
 .V {
     background-color: green;
 }
+.container{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+table{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+tbody{
+    position: relative;
+}

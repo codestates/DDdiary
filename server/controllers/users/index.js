@@ -7,6 +7,7 @@ module.exports = {
         const userInfo = await db.users.findOne({
             where: { id: req.userId }
         })
+        //console.log('userInfo내용:',userInfo)
         if(!userInfo) {
             res.status(500).json({ "messag": "Server Error"});
             return;
@@ -41,6 +42,7 @@ module.exports = {
         }
     },
     userDelete: async (req, res) => {
+        console.log('req.userId내용:',req.userId)
         try {
         await db.users.destroy({
             where: {id: req.userId}

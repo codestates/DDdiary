@@ -131,14 +131,14 @@ function MainPageComponent() {
 
     return (
       pickDate < ttoday ? (
-        <div>
+        <div className='container'>
             <div>
                 <button onClick={()=>{ setMoment(getMoment.clone().subtract(1, 'month')) }} >이전달</button>
                     <span>{today.format('YYYY 년 MM 월')}</span>
                 <button onClick={()=>{ setMoment(getMoment.clone().add(1, 'month')) }} >다음달</button>
             </div>
-        <table>
-            <tbody>
+        <table className='table_container'>
+            <tbody className='today_container'>
                 {calendarArr()}
             </tbody>
         </table>
