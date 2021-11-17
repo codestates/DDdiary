@@ -111,7 +111,9 @@ export default function Login(props) {
         try {
             //id,email.nickname,manager
             const response = await axios.post('http://localhost:4000/oauth/login', body, { accept: "application/json", withCredentials: true })
-            const { id, email, nickname, manager } = response.data.data
+            //비밀번호 안보이게
+            console.log('response:',response.data)
+            const { id, email, nickname, manager } = response.data
             const loginResult = response.data ? response.data : "Invalid email or password" //이거 수정 필요
             //data로 오는지 확인해서 바꿘야함
             if (loginResult === "Invalid email or password") {
@@ -134,7 +136,7 @@ export default function Login(props) {
     const socialLoginHandler = async (e) => {
         e.preventDefault();
         const response = await axios.get('http://localhost:4000/oauth/google', { accept: "application/json", withCredentials: true })
-        console.log(response)
+        // console.log(response)
     }
 
 
@@ -152,7 +154,7 @@ export default function Login(props) {
                     </div>
                     <div className='input_password'>
                     <span className='input_container_text'>비밀번호</span>
-                    <input className='input_password' placeholder='비밀번호' onChange={passwordHandler} required></input><br />
+                    <input className='input_password' type='password' placeholder='비밀번호' onChange={passwordHandler} required></input><br />
                     </div>
                     <span>{errMessage}</span>
                     <Button type='submit'>로그인</Button>
