@@ -21,10 +21,13 @@ const Dropdown = ({setTodoItem, todoItem, handleChangeMsg, todoButtonClick}) => 
         setTodoItem(a)
         setIsActive(!isActive)
     };
+    const inputClear = (event) => {
+        event.target.value = ''
+    }
 
     return (
       <div>
-        <input type = 'text' onChange={handleChangeMsg}></input>
+        <input type = 'text' onChange={handleChangeMsg} onClick={inputClear}></input>
         <button onClick={(a) => {dropDownClick(a)}} className="menu-open">
           <span>{todoItem}</span>
         </button>
