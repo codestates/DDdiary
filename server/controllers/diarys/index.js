@@ -17,10 +17,30 @@ module.exports = {
         }
     },
     getDiary: async(req, res) => {
-
-        res.status(200).json({"a":"a"})
+            //!const myDiary = await db.diarys.findOne({
+            const myDiary = await db.diarys.findAll({
+                //!where: { userId: req.userId, date: req.query.date}
+                where: { userId: req.userId}
+            })
+            //!if(myDiary) {
+                if(myDiary.length === 0) {
+                //!res.status(200).json(myDiary);
+                res.status(404).json({"message":"myDiary not find"})
+                return ;
+            }
+            //res.status(404).json({"message":"myDiary not find"})
+            res.status(200).json(myDiary);
+            return ;
     },
     deleteDiary: async(req, res) => {
-        res.status(200).json({"b":"b"})
+        try{
+        await db.diarys.destroy({
+            where: {userId: req.userId, date: req.query.date}
+        })
+        res.status(200).json({ "message": "diary delete"})
+        }
+        catch (err) {
+            res.status(500).json({ "message": "Server Error"})
+        }
     }
 }
