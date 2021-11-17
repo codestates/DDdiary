@@ -6,23 +6,12 @@ module.exports = (sequelize, DataTypes) => {
 class userDate extends Model {
 
     static associate(models) {
-    models.userDate.hasMany(models.diarys, {
-        foreignKey: 'userId',
-        sourceKey: 'userId',
-        //onUpdate: 'cascade',
-        onDelete: 'CASCADE'
-    });
-    models.userDate.hasMany(models.notToDoList, {
-        foreignKey: 'userId',
-        sourceKey: 'userId',
-        //onUpdate: 'cascade',
-        onDelete: 'CASCADE'
-    });
+
     }
 };
 userDate.init({
     pushDate:DataTypes.INTEGER,
-    userId:DataTypes.STRING
+    userId:DataTypes.INTEGER
 }, {
     sequelize,
     modelName: 'userDate',

@@ -4,12 +4,13 @@ require('dotenv').config();
 
 const isAuth = (req, res, next) => {
 const token = req.cookies['jwt'];
-    console.log('sssssssssss')
+    console.log('auth 확인 후 userId reqdp 포함 미들웨어')
+    console.log(req.cookies)
 if (!token) {
     return res.status(401).json({ "message": "not authorized" });
 }
 try {
-    jwt.verify(token, 'jwt', async (err, encoded) => {
+    jwt.verify(token, process.env.ACCESS_SECRET , async (err, encoded) => {
     if (err) {
         return res.status(401).json({ "message": "not authorized" });
     }
@@ -17,7 +18,7 @@ try {
     if (!usersInfo) {
         return res.status(401).json({ "message": "not authorized" });
     }
-    req.usersId = encoded.id;
+    req.userId = encoded.id;
     return next();
     });
 } catch (error) {

@@ -7,10 +7,9 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
 
-      models.notToDoList.belongsTo(models.userDate, {
+      models.notToDoList.belongsTo(models.users, {
         foreignKey: 'userId',
-        //as: 'userDate',
-        sourceKey: 'userId',
+        sourceKey: 'id',
         onDelete: 'CASCADE',
         //onUpdate: 'CASCADE'
       })
@@ -19,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
   notToDoList.init({
     notToDoListContent: DataTypes.STRING,
     checked: DataTypes.BOOLEAN,
-    userId: DataTypes.INTEGER
+    userId: DataTypes.INTEGER,
+    date: DataTypes.INTEGER
   }, {
     sequelize,
     tableName: 'notToDoList',

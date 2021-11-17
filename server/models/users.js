@@ -13,6 +13,18 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         //onUpdate: 'CASCADE'
       });
+      models.users.hasMany(models.diarys, {
+        foreignKey: 'userId',
+        sourceKey: 'id',
+        //onUpdate: 'cascade',
+        onDelete: 'CASCADE'
+      });
+      models.users.hasMany(models.notToDoList, {
+        foreignKey: 'userId',
+        sourceKey: 'id',
+        //onUpdate: 'cascade',
+        onDelete: 'CASCADE'
+      });
     }
   };
   users.init({
