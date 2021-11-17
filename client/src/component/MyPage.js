@@ -66,6 +66,15 @@ export default function MyPage(props) {
     const [checkChangePassword, setcheckChangePassword] = useState('');
     const [errMessage, setErrMessage] = useState('');
     const [openModal, setOpenModal] = useState(false);
+    
+    const [warningTextPassword, setwarningTextPassword] = useState('');
+    const [warningTextPasswordC, setwarningTextPasswordC] = useState('');
+    const [warningNickname, setwarningNickname] = useState('');
+    const [valid, setvalid] = useState({
+        password: false,
+        passwordConfirm: false,
+        nickname: false,
+    });
 
     if (LoginState.isLogin !== true) {
         console.log('로그인 해주시기 바랍니다')
@@ -171,6 +180,98 @@ export default function MyPage(props) {
     const closeModal = () => {
         setOpenModal(false)
     }
+
+    // const handleInputValue = (key) => (e) => {
+    //     setuserinfo({ ...userinfo, [key]: e.target.value });
+    //   //   console.log(`${[key]}: ${e.target.value}`);
+  
+    //     const { value } = e.target;
+  
+    //     // 비밀번호 유효성검사
+    //     if (key === 'password' && value !== ''){
+    //       const chkNum = value.search(/[0-9]/g);
+    //       const chkEng = value.search(/[a-zA-Z]/ig);
+    //       const spe = value.search(/[!@#$%^*+=-]/gi);
+  
+    //       if (!/^[a-zA-Z0-9!@#$%^*+=-]{8,16}$/.test(value) || chkNum < 0 || chkEng < 0 || spe < 0){
+    //         if (/(\w)\1\1\1/.test(value)){
+    //           if(value !== userinfo.passwordConfirm && userinfo.passwordConfirm !== '') {
+    //             setwarningTextPasswordC('비밀번호가 일치하지 않습니다.');
+    //           }
+    //           else {
+    //             setwarningTextPasswordC('');
+    //           }
+    //           setwarningTextPassword("같은 문자를 4번 이상 사용하실 수 없습니다.");
+    //           setvalid({ ...valid, 'password': false });
+    //         }
+    //         else {
+    //           if(value !== userinfo.passwordConfirm && userinfo.passwordConfirm !== '') {
+    //             setwarningTextPasswordC('비밀번호가 일치하지 않습니다.');
+    //           }
+    //           else {
+    //             setwarningTextPasswordC('');
+    //           }
+    //           setwarningTextPassword("8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.");
+    //           setvalid({ ...valid, 'password': false });
+    //         }
+    //       }
+    //       else {
+    //         if (/(\w)\1\1\1/.test(value)){
+    //           if(value !== userinfo.passwordConfirm && userinfo.passwordConfirm !== '') {
+    //             setwarningTextPasswordC('비밀번호가 일치하지 않습니다.');
+    //           }
+    //           else {
+    //             setwarningTextPasswordC('');
+    //           }  
+    //           setwarningTextPassword("같은 문자를 4번 이상 사용하실 수 없습니다.");
+    //           setvalid({ ...valid, 'password': false });
+    //         }
+    //         else {
+    //           if(value !== userinfo.passwordConfirm && userinfo.passwordConfirm !== '') {
+    //             setwarningTextPasswordC('비밀번호가 일치하지 않습니다.');
+    //           }
+    //           else {
+    //             setwarningTextPasswordC('');
+    //           }
+    //           setwarningTextPassword('');
+    //           setvalid({ ...valid, 'password': true });
+    //         }
+    //       }
+    //     }
+  
+    //     // 비밀번호 재확인 유효성검사
+    //     if (key === 'passwordConfirm' && value !== '') {
+    //       if (value !== userinfo.password) {
+    //         setwarningTextPasswordC('비밀번호가 일치하지 않습니다.');
+    //         setvalid({ ...valid, 'passwordConfirm': false });
+    //       }
+    //       else {
+    //         setwarningTextPasswordC('');
+    //         setvalid({ ...valid, 'passwordConfirm': true });
+    //       }
+    //     }
+  
+    //     // 닉네임 유효성검사
+    //     if (key === 'nickname' && value !== ''){
+    //       const chkKor = value.search(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/);
+    //       const chkEngNinck = value.search(/[a-zA-Z]/ig);
+    //       if (!/^[a-zA-Zㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,16}$/.test(value)) {
+    //         if(chkKor < 0 && chkEngNinck < 0){
+    //           setwarningNickname('한글 혹은 영문 대 소문자를 사용하세요.');
+    //           setvalid({ ...valid, 'nickname' : false });
+    //         }
+    //         else {
+    //           setwarningNickname('길이는 2~16자 이내로 사용하세요.');
+    //           setvalid({ ...valid, 'nickname' : false });
+    //         }
+    //       }
+    //       else {
+    //           setwarningNickname('');
+    //           setvalid({ ...valid, 'nickname' : true });
+    //       }
+    //     }
+    //   };
+    console.log(LoginState)
 
     return (
        
