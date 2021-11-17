@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   dateStorage.init({
-    pushDate: DataTypes.INTEGER
+    pushDate: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'dateStorage',

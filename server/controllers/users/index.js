@@ -3,7 +3,7 @@ const {sendAccessToken, generateAccessToken} = require('../../controllers/tokenF
 
 module.exports = {
     userInfo: async (req, res) => {
-        console.los(req.userId)
+        console.log(req.userId)
         const userInfo = await db.users.findOne({
             where: { id: req.userId }
         })
