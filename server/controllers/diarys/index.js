@@ -17,15 +17,16 @@ module.exports = {
         }
     },
     getDiary: async(req, res) => {
-            //!const myDiary = await db.diarys.findOne({
+        //!const myDiary = await db.diarys.findOne({
             const myDiary = await db.diarys.findAll({
                 //!where: { userId: req.userId, date: req.query.date}
                 where: { userId: req.userId}
             })
+            console.log('myDiary내용:',myDiary)
             //!if(myDiary) {
                 if(myDiary.length === 0) {
                 //!res.status(200).json(myDiary);
-                res.status(404).json({"message":"myDiary not find"})
+                res.json({"message":"myDiary not find"})
                 return ;
             }
             //res.status(404).json({"message":"myDiary not find"})

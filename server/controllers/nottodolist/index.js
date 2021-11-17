@@ -6,8 +6,9 @@ module.exports= {
         const list = await db.notToDoList.findAll({
                 where: {userId: req.userId}
         })
+        console.log('list내용:',list)
         if(list.length === 0) {
-            res.status(404).json({"message": "not find notToDoList"});
+            res.json({"message": "not find notToDoList"});
             return;
         }
         res.status(200).json(list);
