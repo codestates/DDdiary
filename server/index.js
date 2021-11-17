@@ -10,7 +10,7 @@ const diaryRouter = require('./routers/diary');
 const userDate = require('./routers/userDate');
 const dateRouter = require('./routers/dateStorage')
 const dotenv = require('dotenv');
-const models = require('./models')
+// const models = require('./models')
 dotenv.config();
 
 app.use(cors({

@@ -1,3 +1,10 @@
+table {
+    position: relative;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+}
+
 .todo-selectday {
     font-size: 25px;
     color: #1c2bff;
@@ -28,15 +35,3 @@
     height: 25px;
     width: 25px;
 }
-.calendar {
-    /* background-color: rgb(255, 0, 0); */
-    
-}
-
-table{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-

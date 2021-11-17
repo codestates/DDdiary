@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     notToDoListContent: DataTypes.STRING,
     checked: DataTypes.BOOLEAN,
     userId: DataTypes.INTEGER,
-    date: DataTypes.INTEGER
+    date: DataTypes.STRING
   }, {
     sequelize,
     tableName: 'notToDoList',

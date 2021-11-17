@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   diarys.init({
     content: DataTypes.STRING,
     userId: DataTypes.INTEGER,
-    date: DataTypes.INTEGER
+    date: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'diarys',

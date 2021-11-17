@@ -26,7 +26,11 @@ module.exports = {
             //!if(myDiary) {
                 if(myDiary.length === 0) {
                 //!res.status(200).json(myDiary);
+<<<<<<< HEAD
                 res.json({"message":"myDiary not find"})
+=======
+                res.status(200).json({"message":"myDiary not find"})
+>>>>>>> 3b2f95b01582830a7fbb4bf9a4bb7df95fb58f70
                 return ;
             }
             //res.status(404).json({"message":"myDiary not find"})
