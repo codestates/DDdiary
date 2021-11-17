@@ -8,18 +8,32 @@ import axios from 'axios';
 import styled from 'styled-components'
 
 const Container = styled.div`
-    position: relative;
+    position: absolute;
     border: 0.5px solid gray;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-   
+    height: 40rem;
+    width: 27rem;
 `;
 
 const UserInfoContainer = styled.div`
     border: 0.5px solid gray;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 33rem;
+    width: 24rem;
+    font-size: small;
+    & .isChangeable_true {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    }
 `
 const Button = styled.button`
     color: blue;
@@ -32,7 +46,7 @@ const ErrMessage = styled.span`
 
 const PasswordAlert = styled.span`
     
-    font-size: small;
+    font-size: smaller;
 `
 
 
@@ -121,10 +135,6 @@ export default function MyPage(props) {
                 const body = {id:id, email:email, nickname:nickname};
                 const passwordCheckResp = await axios.post('http://localhost:4000/oauth/password', {email,password}, { accept: "application/json", withCredentials: true })
                 console.log('내용:',passwordCheckResp.data.message)
-                if (passwordCheckResp.data.message === "Invalid password") {
-                    setErrMessage('비밀번호를 확인해주세요')
-                    return;
-                } //비밀번호 맞는지 체크
 
                 const changeUserData = await axios.patch('http://localhost:4000/users', body, { accept: "application/json", withCredentials: true })
                 //console.log('changeUserData내용:',changeUserData) //미완성확인
@@ -156,6 +166,10 @@ export default function MyPage(props) {
         } 
         catch (err) {
             console.log(err)
+            if(err.response.status === 401) {
+                setErrMessage('비밀번호를 확인해주세요')
+                return ;
+            }
         }
     };
     //테스트용 지워도 무관
@@ -166,6 +180,7 @@ export default function MyPage(props) {
     const logOutHandler = async () => {
         try {
             const logoutResult = await axios.post('http://localhost:4000/oauth/logout', { accept: "application/json", withCredentials: true })
+            console.log('logoutResult:',logoutResult)
             dispatch(setUserInfo(null))
             dispatch(setIsLogin(false))
             history.push('/');
@@ -218,9 +233,9 @@ export default function MyPage(props) {
 
                 {!isChangeable ? /*isChangeable = False */
                     <div className='isChangeable_false'>
-                        <div>닉네임</div>
-                        <input type='text' value={nickname} disabled></input>
-                        <div>이메일</div>
+                        <span>닉네임</span>
+                        <input type='text' value={nickname} disabled></input><br />
+                        <span>이메일</span>
                         <input type='text' value={email} disabled></input>
                         <div>
                             <Button onClick={logOutHandler}>로그아웃 버튼</Button>
@@ -229,23 +244,31 @@ export default function MyPage(props) {
                     </div>
                     : //isChangeable = true
                     <div className='isChangeable_true'>
-                        <div>닉네임</div>
-                        <input className='input_nickname' type='text' value={nickname} onChange={inputNicknameHandler}></input>
+                       <div>
+                        <span>닉네임</span>
+                        <input className='input_nickname' type='text' value={nickname} onChange={inputNicknameHandler}></input><br />
+                       </div>
                         <div className='password_container'>
+                            <div>
                             <span>비밀번호</span>
                             <ErrMessage>{errMessage}</ErrMessage>
-                            <div>
-                                <input className='input_password' type='text' value={password} onChange={inputPasswordHandler}></input>
+                                <input className='input_password' type='password' value={password} onChange={inputPasswordHandler}></input><br />
                                 <PasswordAlert>사용자 정보 수정시 비밀번호 확인이 필요합니다</PasswordAlert>
                             </div>
 
                         </div>
-                        <div>비밀번호 수정</div>
-                        <input className='change_password' type='text' value={changePassword} onChange={passwordChangeHandler}></input>
-                        <div>비밀번호 수정 확인</div>
-                        <input className='check_change_password' type='text' value={checkChangePassword} onChange={passwordChangeCheckHandler}></input>
-                        <div>이메일</div>
+                        <div>
+                        <span>비밀번호 수정</span>
+                        <input className='change_password' type='password' value={changePassword} onChange={passwordChangeHandler}></input><br />
+                        </div>
+                        <div>
+                        <span>비밀번호 수정 확인</span>
+                        <input className='check_change_password' type='password' value={checkChangePassword} onChange={passwordChangeCheckHandler}></input><br />
+                        </div>
+                        <div>
+                        <span>이메일</span>
                         <input type='text' value={email} disabled></input>
+                        </div>
                     </div>
                 }
 

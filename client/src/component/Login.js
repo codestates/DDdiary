@@ -154,7 +154,7 @@ export default function Login(props) {
                     </div>
                     <div className='input_password'>
                     <span className='input_container_text'>비밀번호</span>
-                    <input className='input_password' placeholder='비밀번호' onChange={passwordHandler} required></input><br />
+                    <input className='input_password' type='password' placeholder='비밀번호' onChange={passwordHandler} required></input><br />
                     </div>
                     <span>{errMessage}</span>
                     <Button type='submit'>로그인</Button>
