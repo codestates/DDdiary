@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components'
 import axios from 'axios';
+import { SignUpSuccess } from '../pages/SignUpSuccess';
 
 axios.defaults.withCredentials = true;
 
@@ -95,6 +96,7 @@ export default function SignUpComponent() {
     const [warningNickname, setwarningNickname] = useState('');
 
     const [checkedInputs, setCheckedInputs] = useState([]);
+    const [isOpen, setIsOpen] = useState(false);
 
     const [valid, setvalid] = useState({
         email: false,
@@ -242,12 +244,14 @@ export default function SignUpComponent() {
           // 아래는 서버에 회원정보 전송해서 받을 값에 대한 코드임.
           // TODO 받는 게 무엇이냐에 다라 수정 필요하며, 이메일이 중복되어 거부될 경우 경고 메시지 보내야 함.
           const reqResult = resp.data ? resp.data : false;
-          if( reqResult ) { // 전달받은 값이 승인될 경우
-            console.log(reqResult);
-            history.push("/loginpage");
+          if( reqResult.message === 'signUp!' ) { // 전달받은 값이 승인될 경우
+            console.log(reqResult.message);
+            setIsOpen(!isOpen);
+            history.push("/signup/success");
           }
           else { // 승인되지 않을 경우 = 이메일 중복됨
             setErrorMessage('이미 가입된 이메일입니다.');
+            console.log(reqResult);
           }
         };
       }
@@ -258,6 +262,8 @@ export default function SignUpComponent() {
 
 
     return (
+      <>
+      {isOpen ? <SignUpSuccess /> :
         <Container>
             <MainContainer>
                 회원가입창
@@ -301,6 +307,8 @@ export default function SignUpComponent() {
                 </LoginContainer>
             </MainContainer>
         </Container>
+                        }
+                        </>
     );
 };
 
