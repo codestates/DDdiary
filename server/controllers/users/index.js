@@ -5,6 +5,7 @@ const {isAuthorized} = require('../../controllers/tokenFuntions')
 
 module.exports = {
     userInfo: async (req, res) => {
+        console.log('req내용',req.body)
         const jwt = req.cookies.jwt;
         if (!jwt) {
             res.status(401).json({"message": "not authorized"});

@@ -3,8 +3,9 @@ const { sign, verify } = require('jsonwebtoken');
 
 module.exports = {
     generateAccessToken: (data) => {
-    // TODO: Access token으로 sign합니다.
-    let Access = sign(data, process.env.ACCESS_SECRET, { expiresIn:'2d'})
+        // TODO: Access token으로 sign합니다.
+        let Access = sign(data, process.env.ACCESS_SECRET, { expiresIn:'2d'})
+       
     
     // HINT: 토큰을 리턴하세요. (공식 문서의 Synchronous한 방법을 사용합니다)
     return Access
