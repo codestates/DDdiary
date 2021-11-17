@@ -11,12 +11,16 @@ const Diary = ({pickDate, todoData, todoItem, setTodoData}) => {
         })
     
         const diarySaveButton = () =>{
+        const filterTodo = diaryContent.filter((todo) => todo !== null)
         const todo = {
             date: pickDate,
-            diaryContent: diaryContent
+            diaryContent: filterTodo
         };
         todoData.map((todolist , idx) => {
            return todolist.date === pickDate && todolist.diaryContent ? todoData.splice(idx,1) : setTodoData([todo, ...todoData])
+        })
+        todoData.filter((todolist) => {
+            return todolist.diaryContent
         })
     }
     // const todo = {
@@ -32,7 +36,9 @@ const Diary = ({pickDate, todoData, todoItem, setTodoData}) => {
                 return todolist.date !== pickDate ? null : todolist.diaryContent ? <div>{[pickDate.slice(0,4),'년',pickDate.slice(4,6),'월',pickDate.slice(6),'일'].join('')}</div> : null
             })}
             
-        
+            {
+                
+            }
 
             {todoData.map((todolist) => {
                 return todolist.date !== pickDate ? null : todolist.checked ?
