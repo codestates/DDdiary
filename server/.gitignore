@@ -7,3 +7,5 @@ package-lock.json
 .env.test.local
 .env.production.local
 .DS_Store
+cert.pem
+key.pem
