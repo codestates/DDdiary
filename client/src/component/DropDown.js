@@ -19,6 +19,7 @@ const Dropdown = ({setTodoItem, todoItem, handleChangeMsg, todoButtonClick}) => 
     const todoItemClick = (event) => {
         let a = event.target.textContent
         setTodoItem(a)
+        setIsActive(!isActive)
     };
 
     return (
