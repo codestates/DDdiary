@@ -12,17 +12,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      // userId: {
-      //   allowNull: true,
-      //   type: Sequelize.STRING
-      // }
+      date: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      }
     })
     .then(function () {
       queryInterface.addColumn('diarys', 'userId', {
         type: Sequelize.INTEGER,
         allowNull: true,
         onDelete: 'CASCADE',
-        references: { model: 'userDate', key: 'userId' },
+        references: { model: 'users', key: 'id' },
       });
     })
   },
