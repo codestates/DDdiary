@@ -6,13 +6,14 @@ import Dropdown from './DropDown';
 import Diary from './Diary';
 import styled from 'styled-components'
 import './MainPage.css';
+import axios from 'axios';
 
 function MainPageComponent() {
     // const dispatch = useDispatch();
     const [getMoment, setMoment]=useState(moment());
     const [todoMsg, setTodoMsg] = useState("");
     const [todoData, setTodoData] = useState([]);
-
+    const LoginState = useSelector(state => state.LoginReducer);
     //todolist만 저장되는 스테이트
     const [todolistData, setTodolistData] = useState([]);
     //diary만 저장되는 스테이트
@@ -31,11 +32,19 @@ function MainPageComponent() {
     // post 일기장 저장 버튼 클릭시 보낼 데이터 : date, diaryContent (date에 해당 날자만 있는 데이트를 보내줘)(투두리스트 따로 다이어리 따로데이터 보내기) 
     // post date res 'ok'
     // console.log(moment().format('YYYYMMDD'))
-    const handle = (data) => {
-        // console.log(data)
-        // console.log(moment().format('YYYYMMDD'))
+
+    // console.log(LoginState)
+
+    const handle = async (data) => {
+ 
+      // await axios
+      // .get(`${process.env.REACT_APP_API_URL}/users`,{ accept: "application/json", withCredentials: true } )
+      // .then((respone) => {
+      //   console.log(respone)
+      // });
+
         setPickDate(data)
-        console.log(diaryCreat)
+        // console.log(diaryCreat)
 
         todoData.map((todolist) => {
           if(todolist.date === pickDate){
@@ -48,7 +57,14 @@ function MainPageComponent() {
           }
         })
     }
-    const postTodolistButton = (data) => {
+    
+    const postTodolistButton = async (data) => {
+
+      await axios
+            .post(`${process.env.REACT_APP_API_URL}/nottodolist`,{todolist: todolistData},{ accept: "application/json", withCredentials: true } )
+            .then((respone) => {
+                console.log(respone)
+            });
 
       const postList = todoData.filter((todolist) => {
         if(todolist.date === pickDate){
@@ -161,17 +177,23 @@ function MainPageComponent() {
         return result;
     }
     console.log(todoData)
+    // axios
+    // .post("<https://localhost:4000/signup>", userinfo)
+    // .then(history.push("/"));
+
+
+
 
     return (
       pickDate < ttoday ? (
-        <div className='container'>
+        <div>
             <div>
                 <button onClick={()=>{ setMoment(getMoment.clone().subtract(1, 'month')) }} >이전달</button>
                     <span>{today.format('YYYY 년 MM 월')}</span>
                 <button onClick={()=>{ setMoment(getMoment.clone().add(1, 'month')) }} >다음달</button>
             </div>
-        <table className='table_container'>
-            <tbody className='today_container'>
+        <table>
+            <tbody>
                 {calendarArr()}
             </tbody>
         </table>
@@ -186,7 +208,7 @@ function MainPageComponent() {
             </div>
 
             <div>
-            <Diary pickDate={pickDate} todoData={todoData} todoItem={todoItem} setTodoData={setTodoData}></Diary>
+            <Diary diaryData={diaryData} pickDate={pickDate} todoData={todoData} todoItem={todoItem} setTodoData={setTodoData}></Diary>
                 {/* {todoData.map((todolist) => {
                   return todolist.date === pickDate && todolist.diaryContent ? <Diary pickDate={pickDate} todoData={todoData} todoItem={todoItem} setTodoData={setTodoData}></Diary> : null})} */}
             </div>
@@ -220,7 +242,7 @@ function MainPageComponent() {
               <Dropdown setTodoItem = {setTodoItem} todoItem = {todoItem} handleChangeMsg = {handleChangeMsg} todoButtonClick = {todoButtonClick}/>
             </div>
             <div>
-              {diaryCreat? <Diary pickDate={pickDate} todoData={todoData} setDiaryData={setDiaryData} setTodoData={setTodoData}></Diary>
+              {diaryCreat? <Diary diaryData={diaryData} pickDate={pickDate} todoData={todoData} setDiaryData={setDiaryData} setTodoData={setTodoData}></Diary>
               :<div></div>}
             </div>
         </div>
