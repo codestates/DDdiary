@@ -55,13 +55,12 @@ export default function MyPage(props) {
     const LoginState = useSelector(state => state.LoginReducer);
     
     const history = useHistory();
-    // const { email } = LoginState.user
-    // const { id } = LoginState.user
     const [isChangeable, setIsChangeable] = useState(false)
     const [id, setId] = useState(LoginState.user.id);
     const [email, setEmail] = useState(LoginState.user.email);
     const [nickname, setNickname] = useState(LoginState.user.nickname);
     const [manager, setManager] = useState(LoginState.user.manager);
+    const [socialType, setSocialType] = useState(LoginState.user.socialType);
     const [password, setPassword] = useState('');
     const [changePassword, setChangePassword] = useState('');
     const [checkChangePassword, setcheckChangePassword] = useState('');
@@ -72,6 +71,8 @@ export default function MyPage(props) {
         console.log('로그인 해주시기 바랍니다')
         history.push('/')
     }
+
+    console.log(LoginState.user)
 
     const changeHandler = () => {
         setIsChangeable(true);
@@ -131,19 +132,19 @@ export default function MyPage(props) {
                 }
 
             } else if (checkeResult === true) {
-                
-                const body = {id:id, email:email, nickname:nickname};
+                const body = {userId:id, email:email, password:changePassword, nickname:nickname};
                 const passwordCheckResp = await axios.post('http://localhost:4000/oauth/password', {email,password}, { accept: "application/json", withCredentials: true })
-                console.log('내용:',passwordCheckResp.data.message)
+                console.log('passwordCheckResp내용:',passwordCheckResp)
 
                 const changeUserData = await axios.patch('http://localhost:4000/users', body, { accept: "application/json", withCredentials: true })
-                //console.log('changeUserData내용:',changeUserData) //미완성확인
+                console.log('changeUserData내용:',changeUserData) //미완성확인
                 //유저정보를 서버로 보내 입력 -> 응답 뭐오는지 확인 필요. 에러 오면 그거 반영 할 수 있게
                 //패치는 데이터 안돌려줌. 겟으로 다시 받아와서 최신화.
-                const getUserData = await axios.get(`http://localhost:4000/users/${id}`,{ accept: "application/json", withCredentials: true })
+                const getUserData = await axios.get(`http://localhost:4000/users/`,{ accept: "application/json", withCredentials: true })
+                console.log('getUserData내용:',getUserData)
                 //실제로 응답 받으면 거기 맞춰 수정
                 //const {id, email, nickname, manager} = getUserData
-                dispatch(setUserInfo({id, email, nickname, manager}))
+                dispatch(setUserInfo({id, email, nickname, socialType, manager}))
                 // if (changeUserDataResp.data.data.password !== true) { //changeUserDataResp에서 찾아야 함
                 //     console.log('비밀번호가 다릅니다')
                 //     return;
@@ -166,17 +167,16 @@ export default function MyPage(props) {
         } 
         catch (err) {
             console.log(err)
-            if(err.response.status === 401) {
-                setErrMessage('비밀번호를 확인해주세요')
-                return ;
-            }
+           // console.log(err.response.status)
+           // console.log(err.response.data)
+            
+
+            // if(err.response.status === 401) {
+            //     setErrMessage('비밀번호를 확인해주세요')
+            //     return ;
+            // }
         }
     };
-    //테스트용 지워도 무관
-    // const test = useSelector(state => state.LoginReducer);
-    // console.log('변경후:', test)
-    //테스트용 지워도 무관
-
     const logOutHandler = async () => {
         try {
             const logoutResult = await axios.post('http://localhost:4000/oauth/logout', { accept: "application/json", withCredentials: true })
