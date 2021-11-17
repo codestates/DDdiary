@@ -1,4 +1,4 @@
-import { SET_ISLOGIN, SET_USERINFO, SET_EMAIL, SET_PASSWORD } from '../actions/LoginAction';
+import { SET_ISLOGIN, SET_USERINFO, SET_NOTTODOLIST, SET_DIARY } from '../actions/LoginAction';
 import { initialState } from './InitialState';
 
 const loginReducer = (state = initialState, action)=>{
@@ -16,19 +16,17 @@ const loginReducer = (state = initialState, action)=>{
                 isLogin:action.payload
             };  
 
-        case SET_EMAIL: 
+        case SET_NOTTODOLIST: 
             return {
                 ...state,
-                email:action.payload
-            }; 
-            
-        case SET_PASSWORD: 
-            return {
-                ...state,
-                password:action.payload
-            }; 
+                notToDoList:action.payload
+            };  
 
-            
+        case SET_DIARY: 
+            return {
+                ...state,
+                diary:action.payload
+            };  
 
         default:
             return state;
