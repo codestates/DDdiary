@@ -144,7 +144,7 @@ function MainPageComponent() {
         </table>
         <div>{[pickDate.slice(0,4),'년',pickDate.slice(4,6),'월',pickDate.slice(6),'일'].join('')}</div>
             <div>{todoData.map((todolist) => {
-                return todolist.date === pickDate ? (
+                return todolist.date === pickDate && todolist.content ? (
                     <div>
                         <button>{todolist.checked ? 'V' : 'X'}</button>
                         {todolist.content}
