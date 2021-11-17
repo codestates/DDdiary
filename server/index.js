@@ -25,6 +25,10 @@ app.use('/todolist', todolistRouter);
 app.use('/oauth', oauthRouter);
 app.use('/diarys', diaryRouter);
 
+app.get('/', (req, res) => {
+  res.status(201).send('Hello World');
+});
+
 let server;
 // if (fs.existsSync('./key.pem') && fs.existsSync('./cert.pem')) {
 //     const privateKey = fs.readFileSync(__dirname + '/key.pem', 'utf8');
