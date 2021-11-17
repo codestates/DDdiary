@@ -5,6 +5,8 @@ import { useHistory } from 'react-router-dom';
 import { setUserInfo, setIsLogin, setLogout, setEmail, setPassword } from "../actions/LoginAction";
 import axios from 'axios';
 import styled from 'styled-components'
+import dotenv from "dotenv";
+dotenv.config();
 
 
 //로그인 액션에서 타입,페이로드 관리
@@ -110,7 +112,10 @@ export default function Login(props) {
         }
         try {
             //id,email.nickname,manager
-            const response = await axios.post('http://localhost:4000/oauth/login', body, { accept: "application/json", withCredentials: true })
+            console.log(process.env.REACT_APP_API_URL)
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/oauth/login`, body, { accept: "application/json", withCredentials: true })
+
+            // const response = await axios.post('http://localhost:4000/oauth/login', body, { accept: "application/json", withCredentials: true })
             //비밀번호 안보이게
             console.log('response:',response.data)
             const { id, email, nickname, socialType, manager } = response.data
@@ -135,7 +140,8 @@ export default function Login(props) {
 
     const socialLoginHandler = async (e) => {
         e.preventDefault();
-        const response = await axios.get('http://localhost:4000/oauth/google', { accept: "application/json", withCredentials: true })
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/oauth/google`, { accept: "application/json", withCredentials: true })
+        // const response = await axios.get('http://localhost:4000/oauth/google', { accept: "application/json", withCredentials: true })
         // console.log(response)
     }
 
