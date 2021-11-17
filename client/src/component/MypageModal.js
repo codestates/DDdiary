@@ -128,7 +128,7 @@ export const Modal = (props) => {
       //const getUserData = await axios.get(`http://localhost:4000/users/${id}`,{ accept: "application/json", withCredentials: true })
       const body = { email: email, password: password } // 유저 누군지 알려줘야 함. 유저아이디나 토큰, 이메일로 판단
       //body 보내면 이상생김
-      const userDeleteResult = await axios.delete(`http://localhost:4000/users/${id}`, body, { accept: "application/json", withCredentials: true })
+      const userDeleteResult = await axios.delete(`http://localhost:4000/users/`, { accept: "application/json", withCredentials: true })
       console.log('userDeleteResult_detail:', userDeleteResult)
       initializeHandler()
       dispatch(setUserInfo(null))
@@ -163,7 +163,7 @@ export const Modal = (props) => {
               <div className='password_submit'>
               <div className='modal_text_password'>비밀번호 확인</div>
               <div className='submit_container'>
-               <input className='input_password' type='text' value={password} onChange={inputPasswordHandler}></input>
+               <input className='input_password' type='password' value={password} onChange={inputPasswordHandler}></input>
                <button onClick={userDeleteHandler}>회원탈퇴</button>
               </div>
                

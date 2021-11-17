@@ -113,14 +113,14 @@ export default function Login(props) {
             const response = await axios.post('http://localhost:4000/oauth/login', body, { accept: "application/json", withCredentials: true })
             //비밀번호 안보이게
             console.log('response:',response.data)
-            const { id, email, nickname, manager } = response.data
+            const { id, email, nickname, socialType, manager } = response.data
             const loginResult = response.data ? response.data : "Invalid email or password" //이거 수정 필요
             //data로 오는지 확인해서 바꿘야함
             if (loginResult === "Invalid email or password") {
                 setErrMessage('아이디 또는 비밀번호를 확인해 주세요')
                 return;
             }
-            dispatch(setUserInfo({ id, email, nickname, manager }));
+            dispatch(setUserInfo({ id, email, nickname, socialType, manager }));
             //id,email.nickname,manager가 userInfo로 들어감
             dispatch(setIsLogin(true));
             history.push('/mainpage')
