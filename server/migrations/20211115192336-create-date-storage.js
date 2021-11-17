@@ -8,13 +8,13 @@ module.exports = {
       },
       pushDate: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         unique:true
       }
     })
     .then(()=> {
       queryInterface.addColumn('userDate', 'pushDate', {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: true,
         //onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
