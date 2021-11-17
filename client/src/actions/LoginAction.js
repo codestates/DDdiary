@@ -1,7 +1,8 @@
 export const SET_ISLOGIN = 'SET_ISLOGIN';
 export const SET_USERINFO = 'SET_USERINFO';
-export const SET_EMAIL = 'SET_EMAIL';
-export const SET_PASSWORD = 'SET_PASSWORD';
+export const SET_NOTTODOLIST = 'SET_NOTTODOLIST';
+export const SET_DIARY = 'SET_DIARY';
+
 const axios = require('axios');
 
 
@@ -28,17 +29,19 @@ export function setIsLogin(data) {
     };
 }
 
-
-export function setEmail(data) {
+export function setNotToDoList(data) {
     return{
-        type:SET_EMAIL,
+        type:SET_NOTTODOLIST,
         payload: data,
     };
 }
 
-export function setPassword(data) {
+export function setDiary(data) {
     return{
-        type:SET_PASSWORD,
+        type:SET_DIARY,
         payload: data,
     };
 }
+
+
+

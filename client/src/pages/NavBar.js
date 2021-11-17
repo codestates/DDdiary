@@ -12,7 +12,7 @@ import styled from 'styled-components';
 library.add(faHome, faCalendarCheck, faUser, faSignInAlt);
 
 export const MainContainer = styled.div`
-  background-color: #D8D8D8;
+  background-color: #8fbeff;
   height: 5rem;
   display: flex;
   justify-content: center;
@@ -20,15 +20,17 @@ export const MainContainer = styled.div`
   text-align: center;
   font-weight: bold;
   font-size: 35px;
+  border-radius: 10px 10px 0px 0px;
+  margin: 1rem 0px 0px 0px;
   > .sidebar {
     height: 3rem;
-    width: 27rem;
+    width: 30rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    letter-spacing:3.5rem;
+    letter-spacing: 5rem;
     border-radius: 30px;
-    background-color: #8b8b8b;
+    background-color: white;
   }
 `;
 
@@ -37,11 +39,11 @@ export const NavBar = () => {
   return (
       <MainContainer>
     <section className="sidebar">
-        <Link exact to ="/"><FontAwesomeIcon icon="home"></FontAwesomeIcon></Link>
+        <Link exact to ="/"><FontAwesomeIcon icon="home" style={{color: "#ee4949"}}></FontAwesomeIcon></Link>
         &nbsp;
-        <Link to="/mainpage"><FontAwesomeIcon icon="calendar-check"></FontAwesomeIcon></Link>
+        <Link to="/mainpage"><FontAwesomeIcon icon="calendar-check" style={{color: "#ee4949"}}></FontAwesomeIcon></Link>
         &nbsp;
-        <Link to="/mypage"><FontAwesomeIcon icon="user"></FontAwesomeIcon></Link>
+        <Link to="/mypage"><FontAwesomeIcon icon="user" style={{color: "#ee4949"}}></FontAwesomeIcon></Link>
     </section>
     </MainContainer>
   );

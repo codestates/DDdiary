@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 //import { Link } from 'react-router-dom';
-import { setUserInfo, setIsLogin, setLogout, setEmail, setPassword } from "../actions/LoginAction";
+import { setUserInfo, setIsLogin, setNotToDoList, setDiary } from "../actions/LoginAction";
 import axios from 'axios';
 import styled from 'styled-components'
 import dotenv from "dotenv";
@@ -112,12 +112,12 @@ export default function Login(props) {
         }
         try {
             //id,email.nickname,manager
-            console.log(process.env.REACT_APP_API_URL)
+            //console.log(process.env.REACT_APP_API_URL)
             const response = await axios.post(`${process.env.REACT_APP_API_URL}/oauth/login`, body, { accept: "application/json", withCredentials: true })
 
             // const response = await axios.post('http://localhost:4000/oauth/login', body, { accept: "application/json", withCredentials: true })
             //비밀번호 안보이게
-            console.log('response:',response.data)
+            //console.log('response:',response.data)
             const { id, email, nickname, socialType, manager } = response.data
             const loginResult = response.data ? response.data : "Invalid email or password" //이거 수정 필요
             //data로 오는지 확인해서 바꿘야함
@@ -128,6 +128,12 @@ export default function Login(props) {
             dispatch(setUserInfo({ id, email, nickname, socialType, manager }));
             //id,email.nickname,manager가 userInfo로 들어감
             dispatch(setIsLogin(true));
+            const getDairy = await axios.get(`${process.env.REACT_APP_API_URL}/diarys`, { accept: "application/json", withCredentials: true })
+            const getNotToDoList = await axios.get(`${process.env.REACT_APP_API_URL}/nottodolist`, { accept: "application/json", withCredentials: true })
+            {getDairy.data.message === "myDiary not find"? dispatch(setDiary({id: id, content: null, userId: null, date: null})):dispatch(setDiary(getDairy.data))}
+            {getNotToDoList.data.message === "not find notToDoList"? dispatch(setNotToDoList({id: id, notToDoListContent: null, checked: null, userId: null, date: null})):dispatch(setNotToDoList(getNotToDoList.data))}
+            
+           
             history.push('/mainpage')
 
             // return loginResult

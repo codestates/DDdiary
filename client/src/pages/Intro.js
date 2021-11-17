@@ -1,17 +1,14 @@
 //맨처음 보이는 페이지
-import { useState } from 'react';
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { setUserInfo, setIsLogin } from "../actions/LoginAction";
+import { useSelector } from "react-redux";
 
 axios.defaults.withCredentials = true;
 
 export const MainContainer = styled.div`
-  background-color: #D8D8D8;
-  height: 55rem;
+  background-color: white;
   display: flex;
   align-items: center;
   text-align: center;
@@ -22,11 +19,11 @@ export const MainContainer = styled.div`
 
 export const PageContainer = styled.div`
   background-size: 58px;
-  background-color: white;
-  width: 27rem;
-  height: 40rem;
-  border-radius: 10px 10px 10px 10px;
-  padding: 1rem;
+  background-color: #fff7b5;
+  width: 30rem;
+  min-height: 45rem;
+  border-radius: 0px 0px 10px 10px;
+  padding: 2rem;
 `;
 
 export const ConfirmBtn = styled.button`
@@ -38,22 +35,23 @@ export const ConfirmBtn = styled.button`
   color: white;
   border-radius: 0.5rem;
   cursor: pointer;
-  margin: 1rem 1.5rem;
+  margin: 0rem 1.5rem 1.3rem 1.5rem;
 
-  & .isLogin {
+  .isLogin {
     background-color: #53D0DB;
     color: black;
   }
 `;
 
 export const IntroContainer = styled.div`
-  background-color: #53D0DB;
+  background-color: white;
   display: flex;
-  width: 24rem;
-  height: 33rem;
+  width: 28rem;
+  padding: 1rem;
   border-radius: 10px;
   margin: 1rem auto;
   flex-direction:column;
+  min-height: 41rem;
 `;
 
 export const IntroductionText = styled.div`
@@ -77,25 +75,19 @@ export const IntroductionTextContent = styled.div`
 `;
 
 export const Intro = () => {
-
-  const [isLogin, setIsLogin] = useState(false);
   
   const LoginState = useSelector(state => state.LoginReducer);
 
-  const loginHandler = () => {
-    setIsLogin(!isLogin)
-  };
-
   return (
     <>
-        {LoginState.isLogin ? <ConfirmBtn className='isLogin'>
+        {LoginState.isLogin ? <ConfirmBtn className='isLogin' style={{color: "#black"}}>
         로그인 상태입니다
         </ConfirmBtn> :
-        <Link exact to ="/loginpage"><ConfirmBtn onClick={loginHandler}>
+        <Link exact to ="/loginpage"><ConfirmBtn style={{backgroundColor: "#5990fd"}}>
         로그인
         </ConfirmBtn></Link>}
         <IntroContainer>
-          <IntroductionText>DDdiary</IntroductionText>
+          <img alt='logo' src='/로고.png' />
           <IntroductionTextContent>
           <div className='line'>일기로 기록하는 낫투두리스트</div>
           <div>DDdiary는 낫투두리스트를 기반으로 하는 일기 자동생성 기능을 제공합니다.</div>
