@@ -2,8 +2,10 @@ import React from 'react';
 import {useState, useRef} from 'react';
 import styled from 'styled-components'
 import moment from 'moment';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
 
-const Diary = ({pickDate, todoData, setTodoData , setDiaryData}) => {
+const Diary = ({pickDate, todoData, setTodoData , setDiaryData, diaryData}) => {
         const diaryTodo = todoData.map((todolist) => {
             if(todolist.date === pickDate){
                 if(todolist.content){
@@ -48,10 +50,11 @@ const Diary = ({pickDate, todoData, setTodoData , setDiaryData}) => {
         //     `${todolist.content} 성공`: 
         //     todolist.content === undefined ? null : `${todolist.content} 실패`
         // })
-    
-        const diarySaveButton = () =>{
 
-            
+        const diarySaveButton = async () => {
+            // console.log(diaryData.diaryContent.join(''))
+
+
             const filterTodo = diaryTodo.filter((todo) => todo !== undefined)
             const todo = {
                 date: pickDate,
@@ -64,6 +67,14 @@ const Diary = ({pickDate, todoData, setTodoData , setDiaryData}) => {
             todoData.filter((todolist) => {
                 return todolist.diaryContent
             })
+            if(diaryData.diaryContent){
+                const q = diaryData.diaryContent.join('')
+                await axios
+                    .post(`${process.env.REACT_APP_API_URL}/diarys`,{date: diaryData.date, content: q},{ accept: "application/json", withCredentials: true } )
+                    .then((respone) => {
+                        console.log(respone)
+                    });
+            }
         }
     // const todo = {
     //     date: pickDate,
