@@ -130,13 +130,16 @@ export default function MyPage(props) {
 
             } else if (checkeResult === true) {
                 const body = {userId:id, email:email, password:changePassword, nickname:nickname};
-                const passwordCheckResp = await axios.post('http://localhost:4000/oauth/password', {email,password}, { accept: "application/json", withCredentials: true })
+                const passwordCheckResp = await axios.post(`${process.env.REACT_APP_API_URL}/oauth/password`, {email,password}, { accept: "application/json", withCredentials: true })
+                // const passwordCheckResp = await axios.post('http://localhost:4000/oauth/password', {email,password}, { accept: "application/json", withCredentials: true })
                 console.log('passwordCheckResp내용:',passwordCheckResp)
 
-                const changeUserData = await axios.patch('http://localhost:4000/users', body, { accept: "application/json", withCredentials: true })
+                const changeUserData = await axios.patch(`${process.env.REACT_APP_API_URL}/users`, body, { accept: "application/json", withCredentials: true })
+                // const changeUserData = await axios.patch('http://localhost:4000/users', body, { accept: "application/json", withCredentials: true })
                 console.log('changeUserData내용:',changeUserData) //미완성확인
                 
-                const getUserData = await axios.get(`http://localhost:4000/users/`,{ accept: "application/json", withCredentials: true })
+                const getUserData = await axios.get(`${process.env.REACT_APP_API_URL}/users/`,{ accept: "application/json", withCredentials: true })
+                // const getUserData = await axios.get(`http://localhost:4000/users/`,{ accept: "application/json", withCredentials: true })
                 console.log('getUserData내용:',getUserData)
                 
                 dispatch(setUserInfo({id, email, nickname, socialType, manager}))
@@ -150,7 +153,8 @@ export default function MyPage(props) {
     };
     const logOutHandler = async () => {
         try {
-            const logoutResult = await axios.post('http://localhost:4000/oauth/logout', { accept: "application/json", withCredentials: true })
+            const logoutResult = await axios.post(`${process.env.REACT_APP_API_URL}/oauth/logout`, { accept: "application/json", withCredentials: true })
+            // const logoutResult = await axios.post('http://localhost:4000/oauth/logout', { accept: "application/json", withCredentials: true })
             console.log('logoutResult:',logoutResult)
             dispatch(setUserInfo(null))
             dispatch(setIsLogin(false))

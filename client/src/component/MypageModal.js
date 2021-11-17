@@ -118,7 +118,8 @@ export const Modal = (props) => {
     try {
       e.stopPropagation()
 
-      const passwordCheckResp = await axios.post('http://localhost:4000/oauth/password', { email, password }, { accept: "application/json", withCredentials: true })
+      const passwordCheckResp = await axios.post(`${process.env.REACT_APP_API_URL}/oauth/password`, { email, password }, { accept: "application/json", withCredentials: true })
+      // const passwordCheckResp = await axios.post('http://localhost:4000/oauth/password', { email, password }, { accept: "application/json", withCredentials: true })
       if (passwordCheckResp.message === "Invalid password") {
         console.log('비밀번호를 확인해주세요')
         return;
@@ -128,7 +129,8 @@ export const Modal = (props) => {
       //const getUserData = await axios.get(`http://localhost:4000/users/${id}`,{ accept: "application/json", withCredentials: true })
       const body = { email: email, password: password } // 유저 누군지 알려줘야 함. 유저아이디나 토큰, 이메일로 판단
       //body 보내면 이상생김
-      const userDeleteResult = await axios.delete(`http://localhost:4000/users/`, { accept: "application/json", withCredentials: true })
+      const userDeleteResult = await axios.delete(`${process.env.REACT_APP_API_URL}/users/`, { accept: "application/json", withCredentials: true })
+      // const userDeleteResult = await axios.delete(`http://localhost:4000/users/`, { accept: "application/json", withCredentials: true })
       console.log('userDeleteResult_detail:', userDeleteResult)
       initializeHandler()
       dispatch(setUserInfo(null))
