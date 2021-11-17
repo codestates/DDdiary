@@ -26,7 +26,7 @@ export const MainContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    letter-spacing:1.5rem;
+    letter-spacing:3.5rem;
     border-radius: 30px;
     background-color: #8b8b8b;
   }
