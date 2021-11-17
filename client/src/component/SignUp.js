@@ -239,8 +239,10 @@ export default function SignUpComponent() {
         }
         else{ // 회원가입에 필요한 정보를 다 입력했을 경우
           // setIsOpen(!isOpen);
+
           // const resp = await axios.post('http://localhost/oauth/signup',body,
           const resp = await axios.post(`${process.env.REACT_APP_API_URL}/oauth/signup`,body,
+
           { accept: "application/json", withCredentials: true });
           // 아래는 서버에 회원정보 전송해서 받을 값에 대한 코드임.
           // TODO 받는 게 무엇이냐에 다라 수정 필요하며, 이메일이 중복되어 거부될 경우 경고 메시지 보내야 함.
