@@ -27,8 +27,6 @@ module.exports = {
                 where: { userId: req.userId}
             })
 
-                if(myDiary.length === 0) {
-
             console.log('myDiary내용:',myDiary)
 
                 if(myDiary.length === 0) {
