@@ -67,12 +67,11 @@ const Diary = ({pickDate, todoData, setTodoData , setDiaryData, diaryData}) => {
                 return todolist.diaryContent
             })
             setDiaryData(todo)
-            // console.log(diaryData)
             if(diaryData.diaryContent){
                 const q = filterTodo.join('')
 
 
-                console.log(pickDate, q)
+
 
                     await axios
                     .post(`${process.env.REACT_APP_API_URL}/diarys`,{date: pickDate, content: q},{ accept: "application/json", withCredentials: true } )
