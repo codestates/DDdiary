@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   diarys.init({
-    content: DataTypes.STRING,
+    diaryContent: DataTypes.STRING,
     userId: DataTypes.INTEGER,
     date: DataTypes.STRING
   }, {

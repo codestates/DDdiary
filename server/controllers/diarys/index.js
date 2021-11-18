@@ -2,7 +2,7 @@ const db = require('../../models');
 
 module.exports = {
     createDiary: async(req, res) => {
-        const {content, date} = req.body;
+        const {diaryContent, date} = req.body;
         const check = await db.diarys.findOne({
             where: {userId: req.userId, date: date}
         })
@@ -13,7 +13,7 @@ module.exports = {
         }
         else if(!check) {
             await db.diarys.create({
-            content: content, userId: req.userId, date: date
+            diaryContent: diaryContent, userId: req.userId, date: date
             })
             res.status(201).json({ "message": "create diary"});
             return ;
@@ -28,9 +28,6 @@ module.exports = {
             const myDiary = await db.diarys.findAll({
                 where: { userId: req.userId}
             })
-
-            console.log('myDiary내용:',myDiary)
-
                 if(myDiary.length === 0) {
                 res.status(200).json({"message":"myDiary not find"})
                 return ;
