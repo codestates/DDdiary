@@ -22,14 +22,19 @@ module.exports = {
         }
     },
     getDiary: async(req, res) => {
+
             const myDiary = await db.diarys.findAll({
                 where: { userId: req.userId}
             })
+
+                if(myDiary.length === 0) {
+
+            console.log('myDiary내용:',myDiary)
+
                 if(myDiary.length === 0) {
                 res.status(200).json({"message":"myDiary not find"})
                 return ;
             }
-            //res.status(404).json({"message":"myDiary not find"})
             res.status(200).json(myDiary);
             return ;
     },

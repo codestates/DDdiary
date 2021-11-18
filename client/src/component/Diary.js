@@ -54,31 +54,30 @@ const Diary = ({pickDate, todoData, setTodoData , setDiaryData, diaryData}) => {
         const diarySaveButton = async () => {
             // console.log(diaryData.diaryContent.join(''))
 
-
             const filterTodo = diaryTodo.filter((todo) => todo !== undefined)
             const todo = {
                 date: pickDate,
                 diaryContent: filterTodo
             };
-            setDiaryData(todo)
+
             todoData.map((todolist , idx) => {
             return todolist.date === pickDate && todolist.diaryContent ? todoData.splice(idx,1) : setTodoData([todo, ...todoData])
             })
             todoData.filter((todolist) => {
                 return todolist.diaryContent
             })
+            setDiaryData(todo)
             if(diaryData.diaryContent){
                 const q = diaryData.diaryContent.join('')
-                await axios
+                    await axios
                     .post(`${process.env.REACT_APP_API_URL}/diarys`,{date: diaryData.date, content: q},{ accept: "application/json", withCredentials: true } )
-                    .then((respone) => {
-                        console.log(respone)
+                    .then(() => {
                     });
             }
-            await axios.post(`${process.env.REACT_APP_API_URL}/userDate`,{date:pickDate},{ accept: "application/json", withCredentials: true }).then(s => {
-                return axios.post(`${process.env.REACT_APP_API_URL}/date`,{ date:pickDate},{ accept: "application/json", withCredentials: true })
-            })
+
+            
         }
+    
     // const todo = {
     //     date: pickDate,
     //     diaryContent: diaryContent
@@ -87,12 +86,16 @@ const Diary = ({pickDate, todoData, setTodoData , setDiaryData, diaryData}) => {
     // console.log(diaryContent)
     return (
     <div>
-        <div>
-            {pickDate >= moment().format('YYYYMMDD') ? <div><button onClick ={diarySaveButton}>일기 저장 할래요?</button> <div>{[pickDate.slice(0,4),'년',pickDate.slice(4,6),'월',pickDate.slice(6),'일'].join('')}</div></div> : todoData.map((todolist) => {
+        <div className='diaryblock'>
+            {pickDate >= moment().format('YYYYMMDD') ? <div><button className='monthBtn saveDiary' onClick ={diarySaveButton}>일기 저장 할래요?</button> <div>{[pickDate.slice(0,4),'년',pickDate.slice(4,6),'월',pickDate.slice(6),'일'].join('')}</div></div> : todoData.map((todolist) => {
                 return todolist.date !== pickDate ? null : todolist.diaryContent ? <div>{[pickDate.slice(0,4),'년',pickDate.slice(4,6),'월',pickDate.slice(6),'일'].join('')}</div> : null
             })}
 
-            {diaryTodo}
+            <div className='diaryContent'>
+            {diaryTodo.map((el) => {
+                return <div>{el}</div>
+            })}
+            </div>
 
         </div>
     </div>

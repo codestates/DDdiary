@@ -3,8 +3,9 @@ const db = require('../../models');
 module.exports = {
     getDate: async(req, res) => {
         const list = await db.userDate.findAll({
-        where : {userId: req.userId}
+            where : {userId: req.userId}
         })
+        console.log('req.userId:',list)
         if(list.length === 0) {
             res.status(404).json({"message": "not find userDate"});
             return ;

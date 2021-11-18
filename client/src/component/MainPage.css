@@ -35,3 +35,32 @@ table {
     height: 25px;
     width: 25px;
 }
+
+
+.monthBtn {
+    margin: 0 1rem 0.5rem 1rem;
+    font-size: 14px;
+    height: 1.8rem;
+}
+
+.YearMonth {
+    font-size: 25px;
+}
+
+.diaryblock {
+    background-color: #fffad2;
+    border-radius: 10px 10px 10px 10px;
+    padding: 2rem;
+    font-size: 25px;
+    line-height: 2rem;
+}
+
+.diaryContent {
+    margin: 1rem;
+    font-size: 20px;
+    
+}
+
+.saveDiary {
+    margin: 0 0 2rem 0;
+}

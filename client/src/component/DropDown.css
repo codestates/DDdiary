@@ -22,8 +22,15 @@
 }
 .menu-open {
   background: #ffffff;
+  height: 1.8rem;
 
 }
 .dropDown-Content {
     font-size: 10px;
+}
+
+.DropInput {
+  width: 13rem;
+  height: 1.5rem;
+  font-size: 15px;
 }
