@@ -1,9 +1,7 @@
 import React from 'react';
-import {useState, useRef} from 'react';
-import styled from 'styled-components'
 import moment from 'moment';
 import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
+
 
 const Diary = ({pickDate, todoData, setTodoData , setDiaryData, diaryData}) => {
         const diaryTodo = todoData.map((todolist) => {
@@ -74,7 +72,7 @@ const Diary = ({pickDate, todoData, setTodoData , setDiaryData, diaryData}) => {
 
 
                     await axios
-                    .post(`${process.env.REACT_APP_API_URL}/diarys`,{date: pickDate, content: q},{ accept: "application/json", withCredentials: true } )
+                    .post(`${process.env.REACT_APP_API_URL}/diarys`,{date: pickDate, diaryContent: q},{ accept: "application/json", withCredentials: true } )
                     .then(() => { axios
                         .post(`${process.env.REACT_APP_API_URL}/userdate`,{date: pickDate},{ accept: "application/json", withCredentials: true } )
                          .then(() => { axios
@@ -89,12 +87,6 @@ const Diary = ({pickDate, todoData, setTodoData , setDiaryData, diaryData}) => {
 
         }
     
-    // const todo = {
-    //     date: pickDate,
-    //     diaryContent: diaryContent
-    // };
-    // setTodoData([todo, ...todoData])
-    // console.log(diaryContent)
     return (
     <div>
         <div className='diaryblock'>

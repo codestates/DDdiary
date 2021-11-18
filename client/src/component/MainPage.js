@@ -13,7 +13,6 @@ function MainPageComponent() {
     const [getMoment, setMoment]=useState(moment());
     const [todoMsg, setTodoMsg] = useState("");
     const LoginState = useSelector(state => state.LoginReducer);
-    //todolist만 저장되는 스테이트
     //diary만 저장되는 스테이트
     const [diaryData, setDiaryData] = useState([]);
     
@@ -25,51 +24,53 @@ function MainPageComponent() {
     const lastWeek = today.clone().endOf('month').week() === 1 ? 53 : today.clone().endOf('month').week();
     const [diaryCreat, setDiaryCreat] = useState(false);
 
+
+    const [todoData, setTodoData] = useState([]);
     // post.get 
     // get 요청할때 투두리스트랑 다이어리를 전체 날자 상관없이 다 받아야됨 
     // post 일기장 저장 버튼 클릭시 보낼 데이터 : date, diaryContent (date에 해당 날자만 있는 데이트를 보내줘)(투두리스트 따로 다이어리 따로데이터 보내기) 
     // post date res 'ok'
 
-  // console.log(LoginState)
-  // const y = {
-  //   date: '',
-  //   content: '',
-  //   checked: false
-  // }
-  // LoginState.diary.map((el) => {
-  //   return 
-  // })
-
-  // todoData.map((todolist , idx) => {
-  //   return todolist.date === pickDate && todolist.diaryContent ? todoData.splice(idx,1) : setTodoData([todo, ...todoData])
-  // }
-  const ab = [...LoginState.diary,...LoginState.notToDoList]
-  ab.map((el, idx) => {
-    if(el.content){
-      if(el.content === null){
-        el.splice(idx,1)
+  let ab = []
+  useEffect(() =>{
+    if(Array.isArray(LoginState.diary)){
+      if(Array.isArray(LoginState.notToDoList)){
+        ab = [...LoginState.diary,...LoginState.notToDoList]
       }
-      else 
-      {
-        delete el.id
-        delete el.userId
+      else if(!Array.isArray(LoginState.notToDoList)){
+        ab = [...LoginState.diary,LoginState.notToDoList]
       }
     }
-    else if(el.notToDoListContent){
-      if(el.notToDoListContent === null){
-        el.splice(idx,1)
-      }
-      else 
-      {
-        delete el.id
-        delete el.userId
+    else if(Array.isArray(LoginState.notToDoList)){
+      if(!Array.isArray(LoginState.diary)){
+        ab = [...LoginState.notToDoList,LoginState.diary]
       }
     }
-  })
-  const [todoData, setTodoData] = useState(ab);
 
-
-
+    ab.map((el, idx) => {
+      if(el.content){
+        if(el.content === null){
+          el.splice(idx,1)
+        }
+        else 
+        {
+          delete el.id
+          delete el.userId
+        }
+      }
+      else if(el.diaryContent){
+        if(el.diaryContent === null){
+          el.splice(idx,1)
+        }
+        else 
+        {
+          delete el.id
+          delete el.userId
+        }
+      }
+    })
+    setTodoData(ab) 
+  },[])
 
     const handle = async (data) => {
  
@@ -106,8 +107,6 @@ function MainPageComponent() {
       abc()
     }
 
-
-    // console.log(todolistData)
 
 
     const todoButtonDeleteClick = (todolist) => {
@@ -219,8 +218,8 @@ function MainPageComponent() {
         <div className='todo-selectday'>{[pickDate.slice(0,4),'년 ',pickDate.slice(4,6),'월 ',pickDate.slice(6),'일'].join('')}</div>
             <div>{todoData.map((todolist) => {
                 return todolist.date === pickDate && todolist.content ? (
-                    <div>
-                        <button>{todolist.checked ? 'V' : 'X'}</button>
+                    <div className='todolist-container'>
+                        <button className={`todo-${todolist.checked ? 'button' : 'close'}`}>{todolist.checked ? 'V' : 'X'}</button>
                         <span className='todo-Content'>{todolist.content}</span>
                     </div>
                   ) : (<div></div>)})}
@@ -249,11 +248,12 @@ function MainPageComponent() {
         <button className='monthBtn' onClick={postTodolistButton}>리스트 저장</button>
             <div>{todoData.map((todolist) => {
 
-                return todolist.date === pickDate && !todolist.diaryContent ? (
-                    <div>
+                return todolist.date === pickDate && !todolist.diaryContent ?(
+                    
+                    <div className='todolist-container'>
                         <button className={`todo-${todolist.checked ? 'button' : 'close'}`} onClick={(e) =>checkBoxButton(todolist,e)}>{todolist.checked ? 'V' : 'X'}</button>
                         <span className='todo-Content'>{todolist.content}</span>
-                        <button className='monthBtn' onClick={() => todoButtonDeleteClick(todolist) }>삭제</button>
+                        <button className='monthBtn2' onClick={() => todoButtonDeleteClick(todolist) }>삭제</button>
                     </div>
                   ) : (<div></div>)})}
             </div>

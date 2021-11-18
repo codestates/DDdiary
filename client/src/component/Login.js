@@ -134,8 +134,8 @@ export default function Login(props) {
             dispatch(setIsLogin(true));
             const getDairy = await axios.get(`${process.env.REACT_APP_API_URL}/diarys`, { accept: "application/json", withCredentials: true })
             const getNotToDoList = await axios.get(`${process.env.REACT_APP_API_URL}/nottodolist`, { accept: "application/json", withCredentials: true })
-            {getDairy.data.message === "myDiary not find"? dispatch(setDiary({id: id, content: null, userId: null, date: null})):dispatch(setDiary(getDairy.data))}
-            {getNotToDoList.data.message === "not find notToDoList"? dispatch(setNotToDoList({id: id, notToDoListContent: null, checked: null, userId: null, date: null})):dispatch(setNotToDoList(getNotToDoList.data))}
+            {getDairy.data.message === "myDiary not find"? dispatch(setDiary({id: id, diaryContent: null, userId: null, date: null})):dispatch(setDiary(getDairy.data))}
+            {getNotToDoList.data.message === "not find notToDoList"? dispatch(setNotToDoList({id: id, content: null, checked: null, userId: null, date: null})):dispatch(setNotToDoList(getNotToDoList.data))}
             
            
             history.push('/mainpage')

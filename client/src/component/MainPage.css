@@ -12,35 +12,57 @@ table {
 }
 
 .todo-button {
-    color:rgb(255, 0, 0);
-    margin: 0.5rem;
-    height: 25px;
-    width: 25px;
+    flex:0.8;
+    font-size: 15px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    background-color: rgb(236, 183, 246);
+    border: 2px solid rgb(207, 34, 250);
 }
 
 .todo-Content {
     font-size: 15px;
+    flex:9;
+    margin:auto;
+    
 }
-.X {
+/* .X {
     background-color: blue;
 }
 .V {
     background-color: green;
+} */
+.todolist-container{
+    border-radius: 40px;
+    border: 2px solid rgb(255, 179, 65);
+    margin: 5px;
+    padding: 2px;
+    display: flex;
 }
-
 .todo-close {
-    margin: 0.5rem;
     font-weight: bold;
-    color: rgb(38, 0, 251);
-    height: 25px;
-    width: 25px;
+
+    flex:0.8;
+    font-size: 15px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    background-color: rgb(167, 237, 243);
+    border: 2px solid rgb(38, 204, 246);
 }
 
 
 .monthBtn {
-    margin: 0 1rem 0.5rem 1rem;
-    font-size: 14px;
-    height: 1.8rem;
+    font-size: 13px;
+    flex:1;
+    overflow:hidden;
+}
+.monthBtn2 {
+    font-size: 13px;
+    flex:0.8;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-color: rgb(246, 201, 201);
+    border: 2px solid rgb(246, 89, 89);
 }
 
 .YearMonth {
