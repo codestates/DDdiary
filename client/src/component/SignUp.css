@@ -1,0 +1,16 @@
+.logo-title {
+    width: 12rem;
+    margin: 1rem 0rem 0rem 0rem;
+}
+
+.signUpInput {
+    width: 16rem;
+    height: 2rem;
+    font-size: 16px;
+}
+
+.btnSignUp {
+    font-size: 15px;
+    width: 5rem;
+    height: 2rem;
+}
