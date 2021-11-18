@@ -17,7 +17,7 @@ module.exports = {
             where: {userId: req.userId, pushDate: req.body.date}
         })
         if(check) {
-            res.status(400).json({"message": "user already exists"})
+            res.status(200).json({"message": "user already exists"})
         }
         else if(!check){
             await db.userDate.create({

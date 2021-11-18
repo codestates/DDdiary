@@ -4,12 +4,10 @@ module.exports = {
     await queryInterface.createTable('dateStorage', {
       id: {
         allowNull: true,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       pushDate: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.STRING,
         unique:true
       }
