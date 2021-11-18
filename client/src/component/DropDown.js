@@ -27,11 +27,11 @@ const Dropdown = ({setTodoItem, todoItem, handleChangeMsg, todoButtonClick}) => 
 
     return (
       <div>
-        <input type = 'text' onChange={handleChangeMsg} onClick={inputClear}></input>
+        <input className='DropInput' type = 'text' onChange={handleChangeMsg} onClick={inputClear}></input>
         <button onClick={(a) => {dropDownClick(a)}} className="menu-open">
           <span>{todoItem}</span>
         </button>
-        <button onClick={todoButtonClick}>생성</button>
+        <button className='monthBtn' onClick={todoButtonClick}>생성</button>
         <div className={`menu ${isActive ? 'active' : 'close'}`}>
           <ul>
             {list.map((el) => {

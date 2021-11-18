@@ -17,25 +17,17 @@ dotenv.config();
 
 
 const Container = styled.div`
-    position: absolute;
-    border: 0.5px solid gray;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    /* height: 70%; */
-    /* width: 52%; */
+    display: grid;
+    grid-template-areas: 
+     "nav nav nav"
+     ". center ."
+     "foot foot foot";
 `;
 const MainContainer = styled.div`
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    /* justify-content: center; */
-    align-items: center;
-    height: 35rem;
-    width: 25rem;
-    border: 0.5px solid gray;
+    margin: 0rem 0rem 1rem 0rem;
+    font-size: 2rem;
+    grid-area: center;
 `;
 const SocialloginContainer = styled.div`
     position: relative;
@@ -48,29 +40,41 @@ const SocialloginContainer = styled.div`
     width: 25rem;
 `;
 const LoginContainer = styled.div`
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 0.5px solid gray;
-    height: 25rem;
-    width: 25rem;
-    
-    & .input_container{
-        font-size: small;
-        
-    };
-    & .input_email{
-       
-    };
-    & .input_password{
-        
-    };
+    margin: 4rem 0rem 0rem 0rem;
+    line-height: 2rem;
+    > .input_container {
+        font-weight: bold;
+        font-size: 17px;
+        letter-spacing:0.2rem;
+    }
+    & .text_line {
+        text-align: left;
+        font-size: 17px;
+        padding: 0rem 0rem 0rem 3rem;
+    }
+    & .field {
+        margin: 0rem 0rem 0rem 0rem;
+    }
+    & .input_password {
+        width: 16rem;
+        height: 2rem;
+        font-size: 16px;
+        margin: 0rem 0rem 0.5rem 0rem;
+    }
+    & .input_email {
+        width: 16rem;
+        height: 2rem;
+        font-size: 16px;
+        margin: 0rem 0rem 0.5rem 0rem;
+    }
 `
 const Button = styled.button`
     position: relative;
-    color: blue;
+    color: black;
+    font-size: 15px;
+    min-width: 5rem;
+    height: 2rem;
+    margin: 1rem 0 0 0 ;
 `;
 const LogoImageTmp = styled.div`
     position: relative;
@@ -153,21 +157,14 @@ export default function Login(props) {
 
 
     return (
-        // <Container>
+        <Container>
         <MainContainer>
-            <LogoImageTmp>
-                로고이미지
-            </LogoImageTmp>
+            <img className='logo-title' alt='logo' src='/로고onlyTITLE.png' />
+            <div>로그인</div>
             <LoginContainer>
                 <form className='input_container' onSubmit={submitHandler} >
-                    <div className='input_email'>
-                    <span className='input_container_text'>이메일</span>
-                    <input placeholder='이메일' onChange={emailHandler} required></input><br />
-                    </div>
-                    <div className='input_password'>
-                    <span className='input_container_text'>비밀번호</span>
+                    <input placeholder='이메일' className='input_email field' onChange={emailHandler} required></input><br />
                     <input className='input_password' type='password' placeholder='비밀번호' onChange={passwordHandler} required></input><br />
-                    </div>
                     <span>{errMessage}</span>
                     <Button type='submit'>로그인</Button>
                 </form>
@@ -175,10 +172,10 @@ export default function Login(props) {
                     <Button onClick={signupHandleer}>아이디가 없으세요? (회원가입)</Button> {/*회원가입페이지 연결 필요 */}
                 </div>
             </LoginContainer>
-            <SocialloginContainer>
+            {/* <SocialloginContainer>
                 <Button onClick={socialLoginHandler} >구글로그인</Button>
-            </SocialloginContainer>
+            </SocialloginContainer> */}
         </MainContainer>
-        /* </Container> */
+        </Container>
     )
 }

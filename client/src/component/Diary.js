@@ -85,14 +85,16 @@ const Diary = ({pickDate, todoData, setTodoData , setDiaryData, diaryData}) => {
     // console.log(diaryContent)
     return (
     <div>
-        <div>
-            {pickDate >= moment().format('YYYYMMDD') ? <div><button onClick ={diarySaveButton}>일기 저장 할래요?</button> <div>{[pickDate.slice(0,4),'년',pickDate.slice(4,6),'월',pickDate.slice(6),'일'].join('')}</div></div> : todoData.map((todolist) => {
+        <div className='diaryblock'>
+            {pickDate >= moment().format('YYYYMMDD') ? <div><button className='monthBtn saveDiary' onClick ={diarySaveButton}>일기 저장 할래요?</button> <div>{[pickDate.slice(0,4),'년',pickDate.slice(4,6),'월',pickDate.slice(6),'일'].join('')}</div></div> : todoData.map((todolist) => {
                 return todolist.date !== pickDate ? null : todolist.diaryContent ? <div>{[pickDate.slice(0,4),'년',pickDate.slice(4,6),'월',pickDate.slice(6),'일'].join('')}</div> : null
             })}
 
+            <div className='diaryContent'>
             {diaryTodo.map((el) => {
                 return <div>{el}</div>
             })}
+            </div>
 
         </div>
     </div>
