@@ -19,24 +19,16 @@ module.exports= {
         return;
     },
     postNotToDoList: async(req, res) => {
-            let id = req.userId || 1
             await db.notToDoList.destroy({
-            where: {userId: id, date: req.body.todolist[0].date}
+            where: {userId: req.userId, date: req.body.date}
             })
             for(let i = 0; i < req.body.todolist.length; i++) {
+                const {date, content, checked} = req.body.todolist[i];
                     await db.notToDoList.create({
-                    userId: id, date: req.body.todolist[i].date, checked: req.body.todolist[i].checked, notToDoListContent: req.body.todolist[i].content
+                    userId: req.userId, date: date, checked: checked, notToDoListContent: content
                 })
             }
-    //     const list = await db.notToDoList.findAll({
-    //         where: {userId: 1, date:111111}
-    // })
+
         res.status(200).json({"message": "create ok"})
     }
-    // patchNotToDoList: async(req, res) => {
-        
-    // },
-    // deleteNotToDoList: async(req, res) => {
-        
-    // }
 }

@@ -58,6 +58,7 @@ function MainPageComponent() {
         })
     }
 
+
     const abc = async () => {
       const postList = todoData.filter((todolist) => {
         if(todolist.date === pickDate){
@@ -87,6 +88,7 @@ function MainPageComponent() {
 
     console.log(diaryData)
     // console.log(todolistData)
+
 
     const todoButtonDeleteClick = (todolist) => {
         // {todoData.map((todolist) => {

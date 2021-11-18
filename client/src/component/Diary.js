@@ -74,6 +74,7 @@ const Diary = ({pickDate, todoData, setTodoData , setDiaryData, diaryData}) => {
                     .then(() => {
                     });
             }
+
             
         }
     

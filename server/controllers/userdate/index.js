@@ -13,14 +13,19 @@ module.exports = {
         res.status(200).json(list)
     },
     postDate: async(req, res) => {
-        try {
+        const check = db.userDate.findOne({
+            where: {userId: req.userId, pushDate: req.body.date}
+        })
+        if(check) {
+            res.status(400).json({"message": "user already exists"})
+        }
+        else if(!check){
             await db.userDate.create({
                 userId: req.userId, pushDate: req.body.date
             })
             res.status(201).json({ "message": "create userDate"})
         }
-        catch (err) {
-            console.log(err);
+        else{
             res.status(500).json({"message": "Server Error"})
         }
     }
