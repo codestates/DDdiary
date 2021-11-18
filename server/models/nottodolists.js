@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   notToDoList.init({
-    notToDoListContent: DataTypes.STRING,
+    content: DataTypes.STRING,
     checked: DataTypes.BOOLEAN,
     userId: DataTypes.INTEGER,
     date: DataTypes.STRING

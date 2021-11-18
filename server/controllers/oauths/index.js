@@ -27,7 +27,6 @@ module.exports = {
     },
     logout: async(req, res) => {
         try {
-            console.log(req)
             res.clearCookie('jwt');
             res.status(200).json({"message": "ok!"});
             return;
@@ -58,7 +57,6 @@ module.exports = {
         }
     },
     password: async(req, res) => {
-        //console.log('password내용:',req.body)
         const {email, password} = req.body;
         const checkPassword = await db.users.findOne({
             where: {email: email, password: password}

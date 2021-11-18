@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      content: {
+      diaryContent: {
         allowNull: false,
         type: Sequelize.STRING,
       },

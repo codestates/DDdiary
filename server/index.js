@@ -10,6 +10,7 @@ const diaryRouter = require('./routers/diary');
 const userDate = require('./routers/userDate');
 const dateRouter = require('./routers/dateStorage')
 const dotenv = require('dotenv');
+const db = require('./models');
 dotenv.config();
 
 app.use(cors({
@@ -28,6 +29,17 @@ app.use('/oauth', oauthRouter);
 app.use('/diarys', diaryRouter);
 app.use('/userDate', userDate);
 app.use('/date', dateRouter);
+
+// app.post('/a', async (req, res) => {
+//     let b = await db.dateStorage.create({
+//         pushDate: req.body.date
+//     })
+//     if(b) {
+//         console.log(b);
+//     res.status(200).json(b)
+//     }
+//     res.status(202).json(b)
+// })
 // models.sequelize.sync({ force: false }).then(() => {
 //   console.log('success');
 // });

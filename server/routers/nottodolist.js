@@ -5,6 +5,5 @@ const auth = require('../middleware/verifyToken')
 
 router.get('/', auth,index.getNotToDoList);
 router.post('/', auth,index.postNotToDoList);
-// router.patch('/', patchMyTodo.patchMyTodo)
 
 module.exports = router
