@@ -4,8 +4,6 @@ require('dotenv').config();
 
 const isAuth = (req, res, next) => {
 const token = req.cookies['jwt'];
-    console.log('auth 확인 후 userId reqdp 포함 미들웨어')
-    console.log('aaa',req.cookies)
 if (!token) {
     return res.status(401).json({ "message": "not authorized" });
 }
