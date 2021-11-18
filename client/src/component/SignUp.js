@@ -188,12 +188,12 @@ export default function SignUpComponent() {
         setCheckedInputs([...checkedInputs, id]);
         setuserinfo({ ...userinfo, 'checkbox': true });
         setvalid({ ...valid, 'checkbox': true });
-        console.log('체크 반영 완료');
+        // console.log('체크 반영 완료');
       } else {
         setCheckedInputs(checkedInputs.filter(el => el !== id));
         setuserinfo({ ...userinfo, 'checkbox': false });
         setvalid({ ...valid, 'checkbox': false });
-        console.log('체크 해제 반영 완료');
+        // console.log('체크 해제 반영 완료');
       }
     };
 
@@ -220,17 +220,17 @@ export default function SignUpComponent() {
           // TODO 받는 게 무엇이냐에 다라 수정 필요하며, 이메일이 중복되어 거부될 경우 경고 메시지 보내야 함.
           const reqResult = resp.data ? resp.data : false;
           if( reqResult.message === 'signUp!' ) { // 전달받은 값이 승인될 경우
-            console.log(reqResult.message);
+            // console.log(reqResult.message);
             setIsOpen(!isOpen);
           }
           else { // 승인되지 않을 경우 = 이메일 중복됨
             setErrorMessage('이미 가입된 이메일입니다.');
-            console.log(reqResult);
+            // console.log(reqResult);
           }
         };
       }
       catch (err) {
-        console.log('에러발생:',err)
+        // console.log('에러발생:',err)
         setErrorMessage('이미 가입된 이메일입니다.');
       }
     };
