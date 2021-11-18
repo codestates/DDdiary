@@ -3,28 +3,29 @@ const db = require('../../models');
 module.exports = {
     createDiary: async(req, res) => {
         const {content, date} = req.body;
-        try {
-        await db.diarys.create({
+        const check = db.diarys.findOne({
+            where: {userId: req.userId, date: date}
+        })
+        if(check) {
+            res.status(409).json({"message": "diary already exists"});
+        }
+        else if(!check) {
+            await db.diarys.create({
             content: content, userId: req.userId, date: date
             })
             res.status(201).json({ "message": "create diary"});
-        } catch {
-            if(err) {
-                console.log(err);
+            return ;
+        }
+        else {
                 res.status(500).json({ "message": "Server Error"});
                 return;
-            }
         }
     },
     getDiary: async(req, res) => {
-            //!const myDiary = await db.diarys.findOne({
             const myDiary = await db.diarys.findAll({
-                //!where: { userId: req.userId, date: req.query.date}
                 where: { userId: req.userId}
             })
-            //!if(myDiary) {
                 if(myDiary.length === 0) {
-                //!res.status(200).json(myDiary);
                 res.status(200).json({"message":"myDiary not find"})
                 return ;
             }

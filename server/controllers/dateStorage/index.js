@@ -7,10 +7,10 @@ module.exports = {
             await db.dateStorage.create({
                 date: req.body.date
             })
-            res.status(200).json({"message": "date ok"});
+            res.status(200).json({"message": "create date"});
             return ;
         }
-        res.status(400).json({"message": "bad request"});
+        res.status(400).json({"message": "Date already exists"});
         return ;
     }
 }

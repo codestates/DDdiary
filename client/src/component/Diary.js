@@ -75,6 +75,9 @@ const Diary = ({pickDate, todoData, setTodoData , setDiaryData, diaryData}) => {
                         console.log(respone)
                     });
             }
+            await axios.post(`${process.env.REACT_APP_API_URL}/userDate`,{date:pickDate},{ accept: "application/json", withCredentials: true }).then(s => {
+                return axios.post(`${process.env.REACT_APP_API_URL}/date`,{ date:pickDate},{ accept: "application/json", withCredentials: true })
+            })
         }
     // const todo = {
     //     date: pickDate,
