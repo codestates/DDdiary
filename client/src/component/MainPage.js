@@ -42,7 +42,7 @@ function MainPageComponent() {
       // .then((respone) => {
       //   console.log(respone)
       // });
-
+        
         setPickDate(data)
         // console.log(diaryCreat)
 
@@ -57,26 +57,36 @@ function MainPageComponent() {
           }
         })
     }
-    
-    const postTodolistButton = async (data) => {
 
-      await axios
-            .post(`${process.env.REACT_APP_API_URL}/nottodolist`,{todolist: todolistData},{ accept: "application/json", withCredentials: true } )
-            .then((respone) => {
-                console.log(respone)
-            });
-
+    const abc = async () => {
       const postList = todoData.filter((todolist) => {
         if(todolist.date === pickDate){
           return todolist.content
           }
-        
       })
-      setTodolistData(postList)
-
+      console.log(postList)
+      await axios
+      .post(`${process.env.REACT_APP_API_URL}/nottodolist`,{todolist: postList,date: pickDate},{ accept: "application/json", withCredentials: true } )
+      .then((respone) => {
+          console.log(respone)
+      });
     }
+    const cba = async ()=> {
+      await axios
+          .post(`${process.env.REACT_APP_API_URL}/userdate`,{date: pickDate},{ accept: "application/json", withCredentials: true } )
+           .then((respone) => {
+          console.log(respone)
+      });
+    }
+    
+    const postTodolistButton = (data) => {
+      abc()
+      cba()
+    }
+
+
     console.log(diaryData)
-    console.log(todolistData)
+    // console.log(todolistData)
 
     const todoButtonDeleteClick = (todolist) => {
         // {todoData.map((todolist) => {

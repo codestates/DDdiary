@@ -16,7 +16,7 @@ dotenv.config();
 app.use(cors({
     origin: [true],
     credentials: true,
-    methods: ['GET', 'POST', 'PATCH', 'DELETE' ,'OPTIONS']
+    //methods: ['GET', 'POST', 'PATCH', 'DELETE' ,'OPTIONS']
 }))
 app.use(cookieParser());
 app.use(express.json())
@@ -27,7 +27,7 @@ app.use('/users', userRouter);
 app.use('/nottodolist', nottodolistRouter);
 app.use('/oauth', oauthRouter);
 app.use('/diarys', diaryRouter);
-app.use('/userdate', userDate);
+app.use('/userDate', userDate);
 app.use('/date', dateRouter);
 
 // models.sequelize.sync({ force: false }).then(() => {

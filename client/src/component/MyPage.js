@@ -1,38 +1,73 @@
 //마이페이지 구현. 정보수정창 겸-> 회원탈퇴 모달창
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { setUserInfo, setIsLogin, setLogout } from "../actions/LoginAction";
+import { setUserInfo, setIsLogin, setNotToDoList, setDiary } from "../actions/LoginAction";
 import { useHistory } from 'react-router-dom';
 import { Modal } from './MypageModal'
 import axios from 'axios';
 import styled from 'styled-components'
 
 const Container = styled.div`
-    position: absolute;
-    border: 0.5px solid gray;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 40rem;
-    width: 27rem;
+   box-sizing: border-box;
+    display: grid;
+    grid-template-areas: 
+     "nav nav nav"
+     ". center ."
+     "foot foot foot";
+     & .logo-title {
+        position: relative;
+    width: 10rem;
+    bottom: 0.5rem;
+    ;
+    }
 `;
 
 const UserInfoContainer = styled.div`
-    border: 0.5px solid gray;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 33rem;
-    width: 24rem;
-    font-size: small;
-    & .isChangeable_true {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+position: relative;
+    margin: 0rem 0rem 1rem 0rem;
+    font-size: 2rem;
+    grid-area: center;
+    margin: 2rem 0rem 0rem 0rem;
+    line-height: 2rem;
+    bottom: 1.5rem;
+
+    > .input_container {
+        font-weight: bold;
+        font-size: 17px;
+        letter-spacing:0.2rem;
+      }
+
+      & .text_line {
+        text-align: left;
+        font-size: 17px;
+        padding: 0rem 0rem 0rem 3rem;
+        position: relative;
+        left: 0.7rem;
+    }
+
+    & .field {
+        margin: 0rem 0rem 1rem 0rem;
+    }
+
+    & .mypageInput {
+    width: 16rem;
+    height: 2rem;
+    font-size: 16px;
+    }
+
+    & .title_container {
+        position: relative;
+        bottom: 0.5rem;
+        left: 2.5rem;
+    }
+
+    & .userinfo_submit_button {
+        position: relative;
+        left: 2.5rem;
+    }
+
+    &.out_button_container{
+        margin-left: 2rem;
     }
 `
 const Button = styled.button`
@@ -53,7 +88,7 @@ const PasswordAlert = styled.span`
 export default function MyPage(props) {
     const dispatch = useDispatch();
     const LoginState = useSelector(state => state.LoginReducer);
-    
+
     const history = useHistory();
     const [isChangeable, setIsChangeable] = useState(false)
     const [id, setId] = useState(LoginState.user.id);
@@ -66,7 +101,7 @@ export default function MyPage(props) {
     const [checkChangePassword, setcheckChangePassword] = useState('');
     const [errMessage, setErrMessage] = useState('');
     const [openModal, setOpenModal] = useState(false);
-    
+
     const [warningTextPassword, setwarningTextPassword] = useState('');
     const [warningTextPasswordC, setwarningTextPasswordC] = useState('');
     const [warningNickname, setwarningNickname] = useState('');
@@ -89,6 +124,8 @@ export default function MyPage(props) {
     };
     const inputPasswordHandler = (e) => {
         setPassword(e.target.value);
+
+        
     };
     const passwordChangeHandler = (e) => {
         setChangePassword(e.target.value);
@@ -99,6 +136,27 @@ export default function MyPage(props) {
     }
     const inputNicknameHandler = (e) => {
         setNickname(e.target.value);
+        const { value } = e.target;
+        if (value !== ''){
+                  const chkKor = value.search(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/);
+                  const chkEngNinck = value.search(/[a-zA-Z]/ig);
+                  if (!/^[a-zA-Zㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,16}$/.test(value)) {
+                    if(chkKor < 0 && chkEngNinck < 0){
+                      setwarningNickname('한글 혹은 영문 대 소문자를 사용하세요.');
+                      setvalid({ ...valid, 'nickname' : false });
+                    }
+                    else {
+                      setwarningNickname('길이는 2~16자 이내로 사용하세요.');
+                      setvalid({ ...valid, 'nickname' : false });
+                    }
+                  }
+                  else {
+                      setwarningNickname('');
+                      setvalid({ ...valid, 'nickname' : true });
+                  }
+                
+              }
+        
     }
 
     const changePasswordChecker = (password1, password2, password3) => {
@@ -120,10 +178,13 @@ export default function MyPage(props) {
         setPassword('')
         setChangePassword('')
         setcheckChangePassword('')
+        dispatch(setDiary({}))
+        dispatch(setNotToDoList({}))
+
     }
 
     const changeCompleteHandler = async () => {
-       
+
         try {
             const checkeResult = changePasswordChecker(password, changePassword, checkChangePassword);
             if (checkeResult !== true) {
@@ -138,24 +199,24 @@ export default function MyPage(props) {
                 }
 
             } else if (checkeResult === true) {
-                const body = {userId:id, email:email, password:changePassword, nickname:nickname};
-                const passwordCheckResp = await axios.post(`${process.env.REACT_APP_API_URL}/oauth/password`, {email,password}, { accept: "application/json", withCredentials: true })
+                const body = { userId: id, email: email, password: changePassword, nickname: nickname };
+                const passwordCheckResp = await axios.post(`${process.env.REACT_APP_API_URL}/oauth/password`, { email, password }, { accept: "application/json", withCredentials: true })
                 // const passwordCheckResp = await axios.post('http://localhost:4000/oauth/password', {email,password}, { accept: "application/json", withCredentials: true })
-                console.log('passwordCheckResp내용:',passwordCheckResp)
+                console.log('passwordCheckResp내용:', passwordCheckResp)
 
                 const changeUserData = await axios.patch(`${process.env.REACT_APP_API_URL}/users`, body, { accept: "application/json", withCredentials: true })
                 // const changeUserData = await axios.patch('http://localhost:4000/users', body, { accept: "application/json", withCredentials: true })
-                console.log('changeUserData내용:',changeUserData) //미완성확인
-                
-                const getUserData = await axios.get(`${process.env.REACT_APP_API_URL}/users/`,{ accept: "application/json", withCredentials: true })
+                console.log('changeUserData내용:', changeUserData) //미완성확인
+
+                const getUserData = await axios.get(`${process.env.REACT_APP_API_URL}/users/`, { accept: "application/json", withCredentials: true })
                 // const getUserData = await axios.get(`http://localhost:4000/users/`,{ accept: "application/json", withCredentials: true })
-                console.log('getUserData내용:',getUserData)
-                
-                dispatch(setUserInfo({id, email, nickname, socialType, manager}))
+                console.log('getUserData내용:', getUserData)
+
+                dispatch(setUserInfo({ id, email, nickname, socialType, manager }))
                 setIsChangeable(false);
                 initializeHandler()
             }
-        } 
+        }
         catch (err) {
             console.log(err)
         }
@@ -164,7 +225,7 @@ export default function MyPage(props) {
         try {
             const logoutResult = await axios.post(`${process.env.REACT_APP_API_URL}/oauth/logout`, { accept: "application/json", withCredentials: true })
             // const logoutResult = await axios.post('http://localhost:4000/oauth/logout', { accept: "application/json", withCredentials: true })
-            console.log('logoutResult:',logoutResult)
+            console.log('logoutResult:', logoutResult)
             dispatch(setUserInfo(null))
             dispatch(setIsLogin(false))
             history.push('/');
@@ -184,15 +245,15 @@ export default function MyPage(props) {
     // const handleInputValue = (key) => (e) => {
     //     setuserinfo({ ...userinfo, [key]: e.target.value });
     //   //   console.log(`${[key]}: ${e.target.value}`);
-  
+
     //     const { value } = e.target;
-  
+
     //     // 비밀번호 유효성검사
     //     if (key === 'password' && value !== ''){
     //       const chkNum = value.search(/[0-9]/g);
     //       const chkEng = value.search(/[a-zA-Z]/ig);
     //       const spe = value.search(/[!@#$%^*+=-]/gi);
-  
+
     //       if (!/^[a-zA-Z0-9!@#$%^*+=-]{8,16}$/.test(value) || chkNum < 0 || chkEng < 0 || spe < 0){
     //         if (/(\w)\1\1\1/.test(value)){
     //           if(value !== userinfo.passwordConfirm && userinfo.passwordConfirm !== '') {
@@ -238,7 +299,7 @@ export default function MyPage(props) {
     //         }
     //       }
     //     }
-  
+
     //     // 비밀번호 재확인 유효성검사
     //     if (key === 'passwordConfirm' && value !== '') {
     //       if (value !== userinfo.password) {
@@ -250,7 +311,7 @@ export default function MyPage(props) {
     //         setvalid({ ...valid, 'passwordConfirm': true });
     //       }
     //     }
-  
+
     //     // 닉네임 유효성검사
     //     if (key === 'nickname' && value !== ''){
     //       const chkKor = value.search(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/);
@@ -274,58 +335,54 @@ export default function MyPage(props) {
     console.log(LoginState)
 
     return (
-       
+
         <Container>
             {!openModal ? null : <Modal closeModal={closeModal} initializeHandler={initializeHandler} />}
-            <div className='userinfo_text'>
-                회원정보
+            <UserInfoContainer>
+            <img className='logo-title' alt='logo' src='/로고onlyTITLE.png' />
+        
+            <div className='title_container'>
+                <span className='userinfo_text'>회원정보</span>
+                <span className='userinfo_submit_button'>
+                   
+                    {isChangeable ?
+                        <Button onClick={changeCompleteHandler}>회원정보 수정완료</Button> :
+                        <Button onClick={changeHandler}>회원정보 수정</Button>}
+                </span>
             </div>
-            {isChangeable ?
-                <Button onClick={changeCompleteHandler}>회원정보 수정완료</Button> :
-                <Button onClick={changeHandler}>회원정보 수정</Button>}
-            <UserInfoContainer> 
+                
+                <div className='input_container'>
+                    <div className='text_line'>닉네임</div><span>{warningNickname}</span>
+                    {!isChangeable ? <input className='input_nickname field mypageInput' type='text' value={nickname} onChange={inputNicknameHandler} disabled required></input>
+                        : <input className='input_nickname field mypageInput' type='text' value={nickname} onChange={inputNicknameHandler} required></input>}<br />
 
-                {!isChangeable ? 
-                    <div className='isChangeable_false'>
-                        <span>닉네임</span>
-                        <input type='text' value={nickname} disabled></input><br />
-                        <span>이메일</span>
-                        <input type='text' value={email} disabled></input>
-                        <div>
-                            <Button onClick={logOutHandler}>로그아웃 버튼</Button>
-                            <Button onClick={openModalHandler/*userDeleteHandler*/}>회원탈퇴 버튼</Button>
-                        </div>
+                    <div className='text_line'>이메일</div>
+                    {!isChangeable ? <input className='input_email field mypageInput' type='text' value={email} disabled required></input>
+                        : <input className='input_email field mypageInput' type='text' value={email} disabled required></input>}<br />
+
+                    <div className='password_container'>
+                        <div className='text_line'>비밀번호</div>
+                        <ErrMessage>{errMessage}</ErrMessage>
+                        {!isChangeable ? <input className='input_password field mypageInput' type='password' value={password} onChange={inputPasswordHandler} disabled required></input>
+                            : <input className='input_password field mypageInput' type='password' value={password} onChange={inputPasswordHandler} required></input>}<br />
+                        <PasswordAlert>사용자 정보 수정시 비밀번호 확인이 필요합니다</PasswordAlert>
                     </div>
-                    : 
-                    <div className='isChangeable_true'>
-                       <div>
-                        <span>닉네임</span>
-                        <input className='input_nickname' type='text' value={nickname} onChange={inputNicknameHandler}></input><br />
-                       </div>
-                        <div className='password_container'>
-                            <div>
-                            <span>비밀번호</span>
-                            <ErrMessage>{errMessage}</ErrMessage>
-                                <input className='input_password' type='password' value={password} onChange={inputPasswordHandler}></input><br />
-                                <PasswordAlert>사용자 정보 수정시 비밀번호 확인이 필요합니다</PasswordAlert>
-                            </div>
 
-                        </div>
-                        <div>
-                        <span>비밀번호 수정</span>
-                        <input className='change_password' type='password' value={changePassword} onChange={passwordChangeHandler}></input><br />
-                        </div>
-                        <div>
-                        <span>비밀번호 수정 확인</span>
-                        <input className='check_change_password' type='password' value={checkChangePassword} onChange={passwordChangeCheckHandler}></input><br />
-                        </div>
-                        <div>
-                        <span>이메일</span>
-                        <input type='text' value={email} disabled></input>
-                        </div>
+                    <div className='text_line'>비밀번호 수정</div>
+                    {!isChangeable ? <input className='input_change_password field mypageInput' type='password' value={changePassword} onChange={passwordChangeHandler} disabled></input>
+                        : <input className='input_change_password field mypageInput' type='password' value={changePassword} onChange={passwordChangeHandler}></input>}<br />
+
+
+                    <div className='text_line'>비밀번호 수정 확인</div>
+                    {!isChangeable ? <input className='input_check_password field mypageInput' type='password' value={checkChangePassword} onChange={passwordChangeCheckHandler} disabled></input>
+                        : <input className='input_check_password field mypageInput' type='password' value={checkChangePassword} onChange={passwordChangeCheckHandler}></input>}<br />
+                    <br />
+
+                    <div className='out_button_container'>
+                        <Button onClick={logOutHandler}>로그아웃 버튼</Button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <Button onClick={openModalHandler/*userDeleteHandler*/}>회원탈퇴 버튼</Button>
                     </div>
-                }
-
+                </div>
             </UserInfoContainer>
 
         </Container>
