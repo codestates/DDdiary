@@ -40,13 +40,13 @@ const LoginContainer = styled.div`
         margin: 0rem 0rem 1rem 0rem;
     }
     & .warning_text {
-        font-weight: normar;
         font-size: 14px;
         color: red;
     }
 `
 const Button = styled.button`
-    color: blue;
+    color: black;
+    margin: 3rem 0rem 0rem 0rem;
 `;
 
 
@@ -273,7 +273,7 @@ export default function SignUpComponent() {
                           checked={checkedInputs.includes('check') ? true : false} required></input> 동의</label>
                     </form>
                     <div>
-                      <Button type='submit' className='field'
+                      <Button type='submit' className='btnSignUp field'
                       onClick={handleSignup}>회원가입</Button>
                     </div>
                     <div className='alert-box' className='warning_text'>{errorMessage}</div>

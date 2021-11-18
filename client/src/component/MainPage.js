@@ -188,16 +188,16 @@ function MainPageComponent() {
       pickDate < ttoday ? (
         <div>
             <div>
-                <button onClick={()=>{ setMoment(getMoment.clone().subtract(1, 'month')) }} >이전달</button>
-                    <span>{today.format('YYYY 년 MM 월')}</span>
-                <button onClick={()=>{ setMoment(getMoment.clone().add(1, 'month')) }} >다음달</button>
+                <button onClick={()=>{ setMoment(getMoment.clone().subtract(1, 'month')) }} className='monthBtn'>이전달</button>
+                    <span className='YearMonth'>{today.format('YYYY 년 MM 월')}</span>
+                <button onClick={()=>{ setMoment(getMoment.clone().add(1, 'month')) }} className='monthBtn'>다음달</button>
             </div>
         <table>
             <tbody>
                 {calendarArr()}
             </tbody>
         </table>
-        <div className='todo-selectday'>{[pickDate.slice(0,4),'년',pickDate.slice(4,6),'월',pickDate.slice(6),'일'].join('')}</div>
+        <div className='todo-selectday'>{[pickDate.slice(0,4),'년 ',pickDate.slice(4,6),'월 ',pickDate.slice(6),'일'].join('')}</div>
             <div>{todoData.map((todolist) => {
                 return todolist.date === pickDate && todolist.content ? (
                     <div>
@@ -216,25 +216,25 @@ function MainPageComponent() {
       ) : (
         <div>
             <div>
-                <button onClick={()=>{ setMoment(getMoment.clone().subtract(1, 'month')) }} >이전달</button>
-                    <span>{today.format('YYYY 년 MM 월')}</span>
-                <button onClick={()=>{ setMoment(getMoment.clone().add(1, 'month')) }} >다음달</button>
+                <button onClick={()=>{ setMoment(getMoment.clone().subtract(1, 'month')) }} className='monthBtn'>이전달</button>
+                    <span className='YearMonth'>{today.format('YYYY 년 MM 월')}</span>
+                <button onClick={()=>{ setMoment(getMoment.clone().add(1, 'month')) }} className='monthBtn'>다음달</button>
             </div>
         <table>
             <tbody className = 'calendar'>
                 {calendarArr()}
             </tbody>
         </table>
-        <div className='todo-selectday'>{[pickDate.slice(0,4),'년',pickDate.slice(4,6),'월',pickDate.slice(6),'일'].join('')}</div>
-        <button onClick={diaryCreatButton}>일기 생성</button>
-        <button onClick={postTodolistButton}>리스트 저장</button>
+        <div className='todo-selectday'>{[pickDate.slice(0,4),'년 ',pickDate.slice(4,6),'월 ',pickDate.slice(6),'일'].join('')}</div>
+        <button className='monthBtn' onClick={diaryCreatButton}>일기 생성</button>
+        <button className='monthBtn' onClick={postTodolistButton}>리스트 저장</button>
             <div>{todoData.map((todolist) => {
                 // console.log(todolist)
                 return todolist.date === pickDate && !todolist.diaryContent ? (
                     <div>
                         <button className={`todo-${todolist.checked ? 'button' : 'close'}`} onClick={(e) =>checkBoxButton(todolist,e)}>{todolist.checked ? 'V' : 'X'}</button>
                         <span className='todo-Content'>{todolist.content}</span>
-                        <button onClick={() => todoButtonDeleteClick(todolist) }>삭제</button>
+                        <button className='monthBtn' onClick={() => todoButtonDeleteClick(todolist) }>삭제</button>
                     </div>
                   ) : (<div></div>)})}
             </div>

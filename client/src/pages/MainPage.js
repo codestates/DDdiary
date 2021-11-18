@@ -16,7 +16,7 @@ function MainPage() {
     return (
         <div>
             <div>
-                <img className="logo" src = 'https://randomuser.me/api/portraits/men/3.jpg'/>
+            <img className='logo-title' alt='logo' src='/로고onlyIMAGE.png' />
                 <MainPageComponent/>
             </div>
         </div>
