@@ -8,11 +8,8 @@ module.exports= {
         })
         console.log('list내용:',list)
         if(list.length === 0) {
-<<<<<<< HEAD
-            res.json({"message": "not find notToDoList"});
-=======
+
             res.status(200).json({"message": "not find notToDoList"});
->>>>>>> 3b2f95b01582830a7fbb4bf9a4bb7df95fb58f70
             return;
         }
         res.status(200).json(list);
