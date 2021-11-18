@@ -42,7 +42,6 @@ module.exports = {
         }
     },
     userDelete: async (req, res) => {
-        console.log('req.userId내용:',req.userId)
         try {
         await db.users.destroy({
             where: {id: req.userId}
