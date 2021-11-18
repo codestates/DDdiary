@@ -112,11 +112,8 @@ export default function MyPage(props) {
     });
 
     if (LoginState.isLogin !== true) {
-        console.log('로그인 해주시기 바랍니다')
         history.push('/')
     }
-
-    console.log(LoginState.user)
 
     const changeHandler = () => {
         setIsChangeable(true);
@@ -189,11 +186,10 @@ export default function MyPage(props) {
             const checkeResult = changePasswordChecker(password, changePassword, checkChangePassword);
             if (checkeResult !== true) {
                 if (checkeResult === 'changedPassword !== checkChangedPassword') {
-                    console.log('수정된 비밀번호와 비밀번호 확인이 같아야 합니다')
                     setErrMessage('수정된 비밀번호와 비밀번호 확인이 같아야 합니다')
                     return;
                 } else if (checkeResult === 'originalPassword === changedPassword') {
-                    console.log('변경된 비밀번호는 원래 비밀번호와 달라야 합니다')
+                    // console.log('변경된 비밀번호는 원래 비밀번호와 달라야 합니다')
                     setErrMessage('변경된 비밀번호는 원래 비밀번호와 달라야 합니다')
                     return;
                 }
@@ -202,15 +198,15 @@ export default function MyPage(props) {
                 const body = { userId: id, email: email, password: changePassword, nickname: nickname };
                 const passwordCheckResp = await axios.post(`${process.env.REACT_APP_API_URL}/oauth/password`, { email, password }, { accept: "application/json", withCredentials: true })
                 // const passwordCheckResp = await axios.post('http://localhost:4000/oauth/password', {email,password}, { accept: "application/json", withCredentials: true })
-                console.log('passwordCheckResp내용:', passwordCheckResp)
+                // console.log('passwordCheckResp내용:', passwordCheckResp)
 
                 const changeUserData = await axios.patch(`${process.env.REACT_APP_API_URL}/users`, body, { accept: "application/json", withCredentials: true })
                 // const changeUserData = await axios.patch('http://localhost:4000/users', body, { accept: "application/json", withCredentials: true })
-                console.log('changeUserData내용:', changeUserData) //미완성확인
+                // console.log('changeUserData내용:', changeUserData) 
 
                 const getUserData = await axios.get(`${process.env.REACT_APP_API_URL}/users/`, { accept: "application/json", withCredentials: true })
                 // const getUserData = await axios.get(`http://localhost:4000/users/`,{ accept: "application/json", withCredentials: true })
-                console.log('getUserData내용:', getUserData)
+                // console.log('getUserData내용:', getUserData)
 
                 dispatch(setUserInfo({ id, email, nickname, socialType, manager }))
                 setIsChangeable(false);
@@ -225,7 +221,7 @@ export default function MyPage(props) {
         try {
             const logoutResult = await axios.post(`${process.env.REACT_APP_API_URL}/oauth/logout`, { accept: "application/json", withCredentials: true })
             // const logoutResult = await axios.post('http://localhost:4000/oauth/logout', { accept: "application/json", withCredentials: true })
-            console.log('logoutResult:', logoutResult)
+            // console.log('logoutResult:', logoutResult)
             dispatch(setUserInfo(null))
             dispatch(setIsLogin(false))
             history.push('/');
@@ -332,7 +328,6 @@ export default function MyPage(props) {
     //       }
     //     }
     //   };
-    console.log(LoginState)
 
     return (
 
