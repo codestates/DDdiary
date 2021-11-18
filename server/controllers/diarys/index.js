@@ -3,11 +3,13 @@ const db = require('../../models');
 module.exports = {
     createDiary: async(req, res) => {
         const {content, date} = req.body;
-        const check = db.diarys.findOne({
+        const check = await db.diarys.findOne({
             where: {userId: req.userId, date: date}
         })
         if(check) {
-            res.status(409).json({"message": "diary already exists"});
+            console.log(date)
+            console.log(check)
+            res.status(200).json({"message": "diary already exists"});
         }
         else if(!check) {
             await db.diarys.create({

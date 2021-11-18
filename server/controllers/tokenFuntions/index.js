@@ -16,9 +16,9 @@ module.exports = {
     res.status(200).cookie("jwt", token,{
         domain: DOMAIN,
         path: '/',
-        secure: true,
+        secure: false,
         httpOnly: true,
-        sameSite:'Strict'
+        sameSite: 'none'
     }).json(userData);
     return ;
     }
