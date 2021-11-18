@@ -121,7 +121,7 @@ export const Modal = (props) => {
       const passwordCheckResp = await axios.post(`${process.env.REACT_APP_API_URL}/oauth/password`, { email, password }, { accept: "application/json", withCredentials: true })
       // const passwordCheckResp = await axios.post('http://localhost:4000/oauth/password', { email, password }, { accept: "application/json", withCredentials: true })
       if (passwordCheckResp.message === "Invalid password") {
-        console.log('비밀번호를 확인해주세요')
+        // console.log('비밀번호를 확인해주세요')
         return;
       }
       //아직 서버 미구현
@@ -131,7 +131,7 @@ export const Modal = (props) => {
       //body 보내면 이상생김
       const userDeleteResult = await axios.delete(`${process.env.REACT_APP_API_URL}/users/`, { accept: "application/json", withCredentials: true })
       // const userDeleteResult = await axios.delete(`http://localhost:4000/users/`, { accept: "application/json", withCredentials: true })
-      console.log('userDeleteResult_detail:', userDeleteResult)
+      // console.log('userDeleteResult_detail:', userDeleteResult)
       initializeHandler()
       dispatch(setUserInfo(null))
       dispatch(setIsLogin(false))

@@ -24,7 +24,7 @@ module.exports = {
         }
     },
     getDiary: async(req, res) => {
-
+            console.log(req)
             const myDiary = await db.diarys.findAll({
                 where: { userId: req.userId}
             })

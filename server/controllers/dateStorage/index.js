@@ -3,14 +3,16 @@ const db = require('../../models');
 module.exports = {
     date : async (req, res) => {
         
-        if(req.body.date) {
+        let check = await db.dateStorage.findOne({
+            where: {pushDate : req.body.date}})
+        if(check === null) {
             await db.dateStorage.create({
-                date: req.body.date
+                pushDate: req.body.date
             })
-            res.status(200).json({"message": "create date"});
+            res.status(201).json({"message": "create date"});
             return ;
         }
-        res.status(400).json({"message": "Date already exists"});
+        res.status(200).json({"message": "date already exists"});
         return ;
     }
 }
