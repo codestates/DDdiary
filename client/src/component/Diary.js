@@ -54,28 +54,29 @@ const Diary = ({pickDate, todoData, setTodoData , setDiaryData, diaryData}) => {
         const diarySaveButton = async () => {
             // console.log(diaryData.diaryContent.join(''))
 
-
             const filterTodo = diaryTodo.filter((todo) => todo !== undefined)
             const todo = {
                 date: pickDate,
                 diaryContent: filterTodo
             };
-            setDiaryData(todo)
+
             todoData.map((todolist , idx) => {
             return todolist.date === pickDate && todolist.diaryContent ? todoData.splice(idx,1) : setTodoData([todo, ...todoData])
             })
             todoData.filter((todolist) => {
                 return todolist.diaryContent
             })
+            setDiaryData(todo)
             if(diaryData.diaryContent){
                 const q = diaryData.diaryContent.join('')
-                await axios
+                    await axios
                     .post(`${process.env.REACT_APP_API_URL}/diarys`,{date: diaryData.date, content: q},{ accept: "application/json", withCredentials: true } )
-                    .then((respone) => {
-                        console.log(respone)
+                    .then(() => {
                     });
             }
+            
         }
+    
     // const todo = {
     //     date: pickDate,
     //     diaryContent: diaryContent
@@ -89,7 +90,9 @@ const Diary = ({pickDate, todoData, setTodoData , setDiaryData, diaryData}) => {
                 return todolist.date !== pickDate ? null : todolist.diaryContent ? <div>{[pickDate.slice(0,4),'년',pickDate.slice(4,6),'월',pickDate.slice(6),'일'].join('')}</div> : null
             })}
 
-            {diaryTodo}
+            {diaryTodo.map((el) => {
+                return <div>{el}</div>
+            })}
 
         </div>
     </div>
