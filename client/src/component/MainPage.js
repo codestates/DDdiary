@@ -72,17 +72,10 @@ function MainPageComponent() {
           console.log(respone)
       });
     }
-    const cba = async ()=> {
-      await axios
-          .post(`${process.env.REACT_APP_API_URL}/userdate`,{date: pickDate},{ accept: "application/json", withCredentials: true } )
-           .then((respone) => {
-          console.log(respone)
-      });
-    }
+
     
     const postTodolistButton = (data) => {
       abc()
-      cba()
     }
 
 
@@ -138,6 +131,7 @@ function MainPageComponent() {
 
     }
     const diaryCreatButton = () => {
+      
       setDiaryCreat(!diaryCreat)
     }
 
